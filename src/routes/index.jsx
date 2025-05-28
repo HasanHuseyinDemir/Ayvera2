@@ -39,37 +39,37 @@ const blocks = [
 const sliderData = [
   {
     title: 'Alarm Sistemleri',
-    img: '/evguvenlik.png',
+    img: '/stock/evguvenlik.png',
     desc: 'Alarm sistemlerimiz ile ev ve iş yerlerinizde maksimum güvenlik sağlıyoruz. Hızlı müdahale ve akıllı bildirimlerle huzurunuz garanti altında.'
   },
   {
     title: 'Kamera Sistemleri',
-    img: '/cam.png',
+    img: '/stock/cam.png',
     desc: 'Yüksek çözünürlüklü kamera sistemlerimiz ile 7/24 izleme ve kayıt imkanı. Her anı kontrol altında tutun.'
   },
   {
     title: 'Ses Sistemleri',
-    img: '/ses.png',
+    img: '/stock/ses.png',
     desc: 'Profesyonel ses sistemleri ile anons, uyarı ve acil durumlarda etkili iletişim.'
   },
   {
     title: 'Güvenlik Aparatları',
-    img: '/aparat.png',
+    img: '/stock/aparat.png',
     desc: 'Kapı, pencere ve geçiş noktaları için tamamlayıcı güvenlik aparatları ile tam koruma.'
   },
   {
     title: 'Yangın Sistemleri',
-    img: '/yangin.png',
+    img: '/stock/yangin.png',
     desc: 'Yangın algılama ve alarm sistemlerimiz ile erken uyarı ve hızlı tahliye imkanı.'
   },
   {
     title: 'Kablo Çeşitleri',
-    img: '/kablo.png',
+    img: '/stock/kablo.png',
     desc: 'Güvenlik sistemleriniz için yüksek kaliteli ve dayanıklı kablo çözümleri.'
   },
   {
     title: 'Geçiş Güvenlik Sistemleri',
-    img: '/gecis.png',
+    img: '/stock/gecis.png',
     desc: 'Kartlı, şifreli ve biyometrik geçiş sistemleriyle yetkisiz erişimi önleyin.'
   },
 ];
@@ -111,10 +111,10 @@ export default component$(() => {
       <section class="max-w-6xl mx-auto py-8 px-4">
         <h2 class="text-xl md:text-2xl font-bold text-cyan-800 text-center mb-6">Bize Güvenen İş Ortaklarımız</h2>
         <div class="flex flex-wrap justify-center items-center gap-8">
-          <img src="/cam.png" alt="Referans 1" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
-          <img src="/evguvenlik.png" alt="Referans 2" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
-          <img src="/kablo.png" alt="Referans 3" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
-          <img src="/gecis.png" alt="Referans 4" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
+          <img src="/stock/cam.png" alt="Referans 1" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
+          <img src="/stock/evguvenlik.png" alt="Referans 2" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
+          <img src="/stock/kablo.png" alt="Referans 3" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
+          <img src="/stock/gecis.png" alt="Referans 4" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
         </div>
       </section>
 

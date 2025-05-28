@@ -41,7 +41,7 @@ export const head = {
 
 export default component$(() => {
 	return (
-		<Content title="Kurumsal Güvenlik">
+		<Content title="KURUMSAL GÜVENLİK" class="bg-gray-50">
 			<section class="space-y-10">
 				<div class="mb-8">
 					<h2 class="text-2xl font-bold text-cyan-800 mb-4 flex items-center gap-2">

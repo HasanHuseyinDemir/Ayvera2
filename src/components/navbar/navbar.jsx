@@ -53,7 +53,7 @@ export const Navbar = component$(() => {
           <Navigator url="/content/cozumler/" name="ÇÖZÜMLER" />
           <Navigator url="/content/uygulama-alanlari/" name="uygulama alanları" />
           <Navigator url="/content/hakkimizda/" name="Hakkımızda" />
-          <Navigator url="/content/iletisim/" name="iletişim" />
+          <Navigator url="/content/iletisim/" name="İLETİŞİM" />
           <div class="flex gap-3 mt-3 lg:mt-0">
             <button class="bg-white text-black px-3 py-1 rounded w-full inline-flex items-center space-between gap-2">
               <BsTelephoneFill/>

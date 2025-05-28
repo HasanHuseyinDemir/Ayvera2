@@ -4,9 +4,9 @@ import { component$, useSignal, useTask$, $, useStyles$ } from '@builder.io/qwik
 
 // Video ve başlık bilgilerini içeren array
 const videos = [
-  { name: "YANGIN GÜVENLİK SİSTEMLERİ", src: "/yangin.mp4" }, // Videolarınızı public/videos/ altına koyduğunuzu varsayıyorum
-  { name: "KAMERA GÜVENLİK SİSTEMLERİ", src: "/ayvera.mp4" },
-  { name: "KAMERA GÜVENLİK SİSTEMLERİ", src: "/ayvera22.mp4" },
+  { name: "YANGIN GÜVENLİK SİSTEMLERİ", src: "/video/yangin.mp4" }, // Videolarınızı public/videos/ altına koyduğunuzu varsayıyorum
+  { name: "KAMERA GÜVENLİK SİSTEMLERİ", src: "/video/ayvera.mp4" },
+  { name: "KAMERA GÜVENLİK SİSTEMLERİ", src: "/video/ayvera22.mp4" },
 ];
 
 export const typewriterStyles = `
@@ -57,7 +57,7 @@ export const AVideo = component$(() => {
   });
 
   return (
-    <section class="relative h-[95vh] flex items-center justify-center overflow-hidden">
+    <section class="relative h-[95vh] shadow-2xl shadow-black/40 flex items-center justify-center overflow-hidden">
       {/* Sol altta silüet logo overlay */}
       <img
         src="/ico.svg"

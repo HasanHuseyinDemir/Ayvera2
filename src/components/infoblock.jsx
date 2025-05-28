@@ -5,7 +5,7 @@ export const InfoBlock = component$(({
   title,
   bgColor,
   bgImage,
-  textColor = 'text-white', // Varsayılan metin rengi
+  textColor = 'text-white',
   overlayColor,
   className,
 }) => {
