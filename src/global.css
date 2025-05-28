@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+:root{
+    --link:rgb(20, 211, 211);
+}
+
+body{
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.link:hover{
+    transition:ease-in-out .3s;
+    color:var(--link)
+}
