@@ -92,7 +92,7 @@ export default component$(() => {
       <div class="w-full bg-cyan-600 text-white text-center py-8 text-2xl font-bold tracking-wide shadow-md mb-10">
         Neden Ayvera?
         <div class="max-w-3xl mx-auto mt-4 text-base font-normal">
-          Ayvera Güvenlik, her müşterisinin ihtiyacına uygun en güncel ve güvenilir teknolojileri kullanarak, güvenliğinizi en üst düzeye taşır. Her projede ihtiyaca özel çözümler sunar, kurulumdan bakıma kadar tüm süreçte yanınızda olur. Güvenliğiniz için doğru adres: Ayvera.
+          Ayvera Güvenlik, müşterilerinin güvenliğini en üst düzeyde sağlamak amacıyla, ulusal ve uluslararası standartlara uygun, yenilikçi ve sürdürülebilir çözümler sunar. Her projede; keşif, danışmanlık, projelendirme, kurulum, eğitim ve satış sonrası destek süreçlerini titizlikle yönetir. Güvenlik teknolojilerindeki güncel gelişmeleri yakından takip ederek, kurumların ve bireylerin ihtiyaçlarına özel, uzun ömürlü ve entegre sistemler geliştirir. Güvenliğiniz için doğru adres: Ayvera.
         </div>
       </div>
 
@@ -106,6 +106,57 @@ export default component$(() => {
           </div>
         ))}
       </section>
+
+      {/* Referanslar/İş Ortakları Alanı */}
+      <section class="max-w-6xl mx-auto py-8 px-4">
+        <h2 class="text-xl md:text-2xl font-bold text-cyan-800 text-center mb-6">Bize Güvenen İş Ortaklarımız</h2>
+        <div class="flex flex-wrap justify-center items-center gap-8">
+          <img src="/cam.png" alt="Referans 1" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
+          <img src="/evguvenlik.png" alt="Referans 2" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
+          <img src="/kablo.png" alt="Referans 3" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
+          <img src="/gecis.png" alt="Referans 4" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
+        </div>
+      </section>
+
+      {/* Kısa İstatistikler */}
+      <section class="max-w-5xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <div class="bg-cyan-50 rounded-lg shadow p-6">
+          <div class="text-3xl font-bold text-cyan-700 mb-2">500+</div>
+          <div class="text-cyan-900 font-semibold">Başarılı Proje</div>
+        </div>
+        <div class="bg-cyan-50 rounded-lg shadow p-6">
+          <div class="text-3xl font-bold text-cyan-700 mb-2">%100</div>
+          <div class="text-cyan-900 font-semibold">Müşteri Memnuniyeti</div>
+        </div>
+        <div class="bg-cyan-50 rounded-lg shadow p-6">
+          <div class="text-3xl font-bold text-cyan-700 mb-2">7/24</div>
+          <div class="text-cyan-900 font-semibold">Teknik Destek</div>
+        </div>
+      </section>
+
+      {/* Sıkça Sorulan Sorular (SSS) */}
+      <section class="max-w-4xl mx-auto py-10 px-4">
+        <h2 class="text-xl md:text-2xl font-bold text-cyan-800 text-center mb-6">Sıkça Sorulan Sorular</h2>
+        <div class="space-y-4">
+          <details class="bg-white rounded shadow p-4">
+            <summary class="font-semibold text-cyan-700 cursor-pointer">Alarm sistemlerinizin garantisi var mı?</summary>
+            <div class="mt-2 text-gray-700">Tüm ürünlerimiz ve kurulumlarımız 2 yıl garantilidir. Ayrıca isteğe bağlı olarak ek garanti ve bakım paketleri sunuyoruz.</div>
+          </details>
+          <details class="bg-white rounded shadow p-4">
+            <summary class="font-semibold text-cyan-700 cursor-pointer">Kurulumdan sonra teknik destek alabilir miyim?</summary>
+            <div class="mt-2 text-gray-700">Evet, 7/24 teknik destek hattımız ve uzaktan destek imkanımız mevcuttur.</div>
+          </details>
+          <details class="bg-white rounded shadow p-4">
+            <summary class="font-semibold text-cyan-700 cursor-pointer">Fiyat teklifi almak için ne yapmalıyım?</summary>
+            <div class="mt-2 text-gray-700">İletişim formumuzu doldurabilir veya doğrudan bizi arayarak ücretsiz keşif ve teklif talebinde bulunabilirsiniz.</div>
+          </details>
+        </div>
+      </section>
+
+      {/* Hızlı Teklif Al Butonu */}
+      <div class="flex justify-center my-10">
+        <a href="/content/iletisim#content" class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-4 px-10 rounded-full shadow-lg text-xl transition">Hızlı Teklif Al</a>
+      </div>
 
         <Cozumler/>
     </>
