@@ -1,0 +1,1 @@
+import{B as s,i as l,S as o}from"./q-dHwleXQA.js";import"./q-BDb8A3xp.js";const a=()=>s("div",null,{class:" grid grid-cols-1     md:grid-cols-2   lg:grid-cols-3  gap-6              p-4                 max-w-7xl           mx-auto             my-8 "},l(o,null,3,"PU_0"),1,"PU_1");export{a as s_3s5iIN7opGw};

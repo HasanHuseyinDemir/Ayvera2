@@ -1,0 +1,1 @@
+import{C as e}from"./q-BrZnMBvo.js";import{i as r,j as i,B as l}from"./q-dHwleXQA.js";import"./q-BDb8A3xp.js";import"./q-BEZsbgCH.js";const m=()=>r(e,{title:"Projelerimiz",children:l("p",null,{class:"mb-4"},"Gerçekleştirdiğimiz projeler ve referanslarımız hakkında bilgi almak için bu sayfayı inceleyebilirsiniz.",3,null),[i]:{title:i}},3,"9S_0");export{m as s_JnEl0iLQcxY};
