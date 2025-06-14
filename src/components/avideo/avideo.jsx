@@ -2,9 +2,8 @@ import { component$, useSignal, useTask$, $, useStyles$ } from '@builder.io/qwik
 
 
 const videos = [
-  { name: "YANGIN GÜVENLİK SİSTEMLERİ", src: "/video/yangin.mp4" }, // Videolarınızı public/videos/ altına koyduğunuzu varsayıyorum
   { name: "KAMERA GÜVENLİK SİSTEMLERİ", src: "/video/compress/ayvera.mp4" },
-  { name: "KAMERA GÜVENLİK SİSTEMLERİ", src: "/video/compress/ayvera22.mp4" },
+  { name: "YANGIN GÜVENLİK SİSTEMLERİ", src: "/video/yangin.mp4" }, // Videolarınızı public/videos/ altına koyduğunuzu varsayıyorum
   { name: "CCTV", src: "/video/compress/cctv.mp4" },
   { name: 1, src: "/video/compress/bg1.mp4" },
 ];
