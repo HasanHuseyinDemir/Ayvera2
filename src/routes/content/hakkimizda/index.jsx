@@ -1,6 +1,9 @@
 import { component$ } from '@builder.io/qwik';
 import { Content } from '~/components/content';
 import { LuStar } from '@qwikest/icons/lucide'; // Eğer lucide-qwik veya heroicons kullanıyorsan
+import FaqAccordion from '~/components/FaqAccordion';
+import CallToActionBanner from '~/components/CallToActionBanner';
+
 const values = [
     'Kalite',
     'Yenilikçilik',
@@ -10,6 +13,12 @@ const values = [
     'Müşteri Memnuniyeti',
     'İletişim',
     'Şeffaflık',
+];
+
+
+const faqs = [
+  { question: 'Ayvera hangi alanlarda hizmet veriyor?', answer: 'Elektronik güvenlik, yangın, kamera, alarm ve geçiş sistemlerinde bayilik hizmeti veriyoruz.' },
+  { question: 'Sertifikalarınız var mı?', answer: 'Tüm ürün ve hizmetlerimiz ulusal ve uluslararası sertifikalara sahiptir.' },
 ];
 
 export const head = {
@@ -74,6 +83,10 @@ export default component$(() => {
                 </div>
 
             </section>
+            <div class="space-y-10 mt-5">
+              <FaqAccordion faqs={faqs} />
+              <CallToActionBanner title="Hakkımızda Daha Fazla Bilgi" desc="Ayvera’nın vizyonu, misyonu ve değerleriyle tanışın." buttonText="Kurumsal Bilgi" buttonHref="/content/kurumsal#content" />
+            </div>
         </Content>
     );
 });

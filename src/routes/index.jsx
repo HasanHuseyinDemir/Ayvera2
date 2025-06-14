@@ -1,6 +1,7 @@
 import { component$ } from '@builder.io/qwik';
 import { LuSearch, LuUserCheck, LuClipboardList, LuSettings, LuBell, LuWrench } from '@qwikest/icons/lucide';
 import { Slider } from '~/components/Slider';
+import StatsBar from '~/components/StatsBar';
 import { Cozumler } from '~/components/cozumler';
 
 const blocks = [
@@ -85,16 +86,13 @@ export const head = {
 export default component$(() => {
   return (
     <>
-      {/* Slider Alanı */}
-      <Slider data={sliderData} />
-
-      {/* Neden Ayvera Blok */}
-      <div class="w-full bg-cyan-600 text-white text-center py-8 text-2xl font-bold tracking-wide shadow-md mb-10">
+      <div class="w-full bg-cyan-700 text-white text-center py-8 text-2xl font-bold tracking-wide shadow-md ">
         Neden Ayvera?
-        <div class="max-w-3xl mx-auto mt-4 text-base font-normal">
-          Ayvera Güvenlik, müşterilerinin güvenliğini en üst düzeyde sağlamak amacıyla, ulusal ve uluslararası standartlara uygun, yenilikçi ve sürdürülebilir çözümler sunar. Her projede; keşif, danışmanlık, projelendirme, kurulum, eğitim ve satış sonrası destek süreçlerini titizlikle yönetir. Güvenlik teknolojilerindeki güncel gelişmeleri yakından takip ederek, kurumların ve bireylerin ihtiyaçlarına özel, uzun ömürlü ve entegre sistemler geliştirir. Güvenliğiniz için doğru adres: Ayvera.
-        </div>
+        <div class="max-w-3xl mx-auto mt-4 text-base font-normal text-justify p-4">
+Ayvera Güvenlik, kurumlara özel entegre güvenlik çözümleri sunar. Keşif, projelendirme, kurulum ve satış sonrası destek dahil tüm süreçleri profesyonelce yönetir. Ulusal ve uluslararası standartlara uygun ürünleriyle güvenliği sürdürülebilir kılar.
+Bayilik sistemiyle güçlü iş ortaklıkları kurar; iş ortaklarına teknik destek, eğitim ve proje danışmanlığı sağlar. Güvenlik teknolojilerinde uzun vadeli çözüm ortağınız: Ayvera.        </div>
       </div>
+      <Slider data={sliderData} />
 
       {/* Kurumsal Hizmetler Blokları */}
       <section class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -102,14 +100,14 @@ export default component$(() => {
           <div key={title} class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center border-t-4 border-cyan-500 hover:shadow-2xl transition-shadow">
             <Icon class="w-12 h-12 text-cyan-600 mb-4" />
             <h3 class="text-lg font-bold text-cyan-800 mb-2">{title}</h3>
-            <p class="text-gray-700 text-sm">{desc}</p>
+            <p class="text-gray-700 text-sm text-justify">{desc}</p>
           </div>
         ))}
       </section>
 
       {/* Referanslar/İş Ortakları Alanı */}
       <section class="max-w-6xl mx-auto py-8 px-4">
-        <h2 class="text-xl md:text-2xl font-bold text-cyan-800 text-center mb-6">Bize Güvenen İş Ortaklarımız</h2>
+        <h2 class="text-xl md:text-2xl font-bold text-cyan-800 text-center mb-6">İş Ortaklarımız</h2>
         <div class="flex flex-wrap justify-center items-center gap-8">
           <img src="/stock/cam.png" alt="Referans 1" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
           <img src="/stock/evguvenlik.png" alt="Referans 2" class="h-12 w-auto grayscale hover:grayscale-0 transition" />
@@ -119,11 +117,7 @@ export default component$(() => {
       </section>
 
       {/* Kısa İstatistikler */}
-      <section class="max-w-5xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-        <div class="bg-cyan-50 rounded-lg shadow p-6">
-          <div class="text-3xl font-bold text-cyan-700 mb-2">500+</div>
-          <div class="text-cyan-900 font-semibold">Başarılı Proje</div>
-        </div>
+      <section class="max-w-5xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
         <div class="bg-cyan-50 rounded-lg shadow p-6">
           <div class="text-3xl font-bold text-cyan-700 mb-2">%100</div>
           <div class="text-cyan-900 font-semibold">Müşteri Memnuniyeti</div>
@@ -157,7 +151,7 @@ export default component$(() => {
       <div class="flex justify-center my-10">
         <a href="/content/iletisim#content" class="bg-cyan-700 hover:bg-cyan-800 text-white font-bold py-4 px-10 rounded-full shadow-lg text-xl transition">Hızlı Teklif Al</a>
       </div>
-
+        <StatsBar/>
         <Cozumler/>
     </>
   );

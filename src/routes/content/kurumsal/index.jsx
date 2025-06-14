@@ -1,5 +1,9 @@
 import { component$ } from '@builder.io/qwik';
 import { Content } from '~/components/content';
+import FeatureGrid from '~/components/FeatureGrid';
+import TestimonialCarousel from '~/components/TestimonialCarousel';
+import FaqAccordion from '~/components/FaqAccordion';
+import CallToActionBanner from '~/components/CallToActionBanner';
 import { LuShieldCheck, LuUsers, LuLock, LuAlertTriangle } from '@qwikest/icons/lucide';
 
 const services = [
@@ -23,6 +27,11 @@ const services = [
 		title: 'Acil Durum ve Alarm Sistemleri',
 		desc: 'Yangın, hırsızlık ve diğer acil durumlarda hızlı müdahale için akıllı alarm ve bildirim sistemleri kuruyoruz.',
 	},
+];
+
+const faqs = [
+	{ question: 'Kurumsal projelerde keşif ücretsiz mi?', answer: 'Evet, tüm kurumsal projelerde ücretsiz keşif hizmeti sunuyoruz.' },
+	{ question: 'Uzaktan izleme desteği var mı?', answer: 'Tüm sistemlerimizde uzaktan izleme ve yönetim desteği mevcuttur.' },
 ];
 
 export const head = {
@@ -83,6 +92,16 @@ export default component$(() => {
 					<p class="text-gray-700">
 						Ayvera olarak, kurumunuzun ihtiyaçlarına özel entegre güvenlik çözümleri sunuyoruz. Deneyimli ekibimiz ve ileri teknoloji altyapımız ile, risk analizi, sistem kurulumu ve sürekli destek hizmetleriyle yanınızdayız. Güvenliğinizi bize emanet edin, siz işinize odaklanın.
 					</p>
+				</div>
+
+				<div class="space-y-10">
+					<FaqAccordion faqs={faqs} />
+					<CallToActionBanner
+						title="Kurumsal Güvenlik Çözümleri"
+						desc="İşletmeniz için en uygun entegre güvenlik sistemleriyle tanışın."
+						buttonText="Teklif Al"
+						buttonHref="/content/iletisim#content"
+					/>
 				</div>
 			</section>
 		</Content>

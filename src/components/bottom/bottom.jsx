@@ -1,6 +1,6 @@
 import { component$ } from '@builder.io/qwik';
 import { Link } from '@builder.io/qwik-city';
-import {BsMailbox, BsShop, BsTelephone} from "@qwikest/icons/bootstrap"
+import {BsFacebook, BsInstagram, BsMailbox, BsShop, BsTelephone} from "@qwikest/icons/bootstrap"
 
 export const Bottom= component$(() => {
   return (
@@ -44,16 +44,15 @@ export const Bottom= component$(() => {
 
         {/* Sosyal Medya Linkleri */}
         <div>
-          <h3 class="text-lg font-semibold mb-4">Sosyal Medyada Ayvera</h3>
+          <h3 class="text-lg font-semibold mb-4">Sosyal Medya</h3>
           <ul class="space-y-2 text-sm">
-            <li>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="hover:underline">Twitter'da Bizi Takip Edin</a>
+            <li class="flex gap-2 items-center">
+              <BsInstagram/>
+              <a href="https://www.instagram.com/ayveraguvenlik/?hl=tr" target="_blank" rel="noopener noreferrer" class="hover:underline">Instagram Adresimiz</a>
             </li>
-            <li>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:underline">Instagram'da Güncel Kalın</a>
-            </li>
-            <li>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:underline">Facebook'ta Topluluğumuza Katılın</a>
+            <li class="flex gap-2 items-center">
+              <BsFacebook/>
+              <a href='https://www.facebook.com/ayveraguvenlik' target="_blank" rel="noopener noreferrer" class="hover:underline">Facebook Topluluğumuz</a>
             </li>
           </ul>
         </div>
