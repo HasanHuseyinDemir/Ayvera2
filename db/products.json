@@ -1,0 +1,269 @@
+{
+  "products": [
+    {
+      "id": 6,
+      "title": "Ses Sistemi Paketi",
+      "desc": "Anons ve müzik sistemi paketi. Hoparlör, mikser ve amplifikatör dahil tam çözüm.",
+      "img": "/stock/ses.png",
+      "category": "Kamera Sistemleri2",
+      "brand": "Rubezh",
+      "features": [],
+      "driver": "",
+      "pdf": ""
+    },
+    {
+      "id": 7,
+      "title": "Kablo Sistemi Seti",
+      "desc": "Profesyonel kamera sistemi için kablo alt yapı seti. RG59 koaksiyel kablo ve aksesuarlar.",
+      "img": "/stock/kablo.png",
+      "category": "Kamera Sistemleri",
+      "brand": "Kodicom",
+      "features": [
+        "RG59 kablo",
+        "BNC konnektörler",
+        "100m kablo uzunluğu",
+        "Güç adaptörü"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "WiFi Güvenlik Kamerası",
+      "desc": "Kablosuz bağlantılı akıllı güvenlik kamerası. Telefon uygulaması ile canlı izleme.",
+      "img": "/stock/aparat.png",
+      "category": "Kamera Sistemleri",
+      "brand": "Imou",
+      "features": [
+        "WiFi bağlantı",
+        "Canlı izleme",
+        "Hareket tespiti",
+        "Çift yönlü ses",
+        "Bulut kayıt"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Profesyonel Alarm Sistemi",
+      "desc": "Büyük işletmeler için gelişmiş alarm sistemi. Çoklu sensör desteği ve merkezi izleme.",
+      "img": "/stock/evguvenlik.png",
+      "category": "Alarm Sistemleri",
+      "brand": "Rubezh",
+      "features": [
+        "Çoklu BBBB",
+        "GSM bildirimi",
+        "Sabotaj koruması",
+        "Backup batarya",
+        "Profesyonel kurulum"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Parmak İzi Okuyucu",
+      "desc": "Yüksek güvenlikli parmak izi tanıma sistemi. Hızlı ve güvenilir erişim kontrolü.",
+      "img": "/stock/gecis.png",
+      "category": "Geçiş Sistemleri",
+      "brand": "ZKT",
+      "features": [
+        "Parmak izi tanıma",
+        "1000 kullanıcı kapasitesi",
+        "TCP/IP bağlantı",
+        "Rapor sistemi",
+        "Su geçirmezdcv"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Duman Dedektörü",
+      "desc": "Optik duman algılama sensörü. Erken uyarı sistemi ile yangın güvenliği sağlar.",
+      "img": "/stock/yangin.png",
+      "category": "Yangın Sistemleri",
+      "brand": "Fonri",
+      "features": [
+        "Optik sensör",
+        "85dB alarm sesi",
+        "Test butonu",
+        "Düşük batarya uyarısı",
+        "CE sertifikası"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Outdoor PTZ Kameras",
+      "desc": "Dış mekan için özel tasarlanmış PTZ kamera. 360° dönebilir ve 30x zoom özelliği.",
+      "img": "/stock/cam.png",
+      "category": "",
+      "brand": "Teletek",
+      "features": [
+        "30x zoom",
+        "360° pan/tilt",
+        "IP66 koruması",
+        "Auto tracking",
+        "Preset pozisyonlar",
+        "xxx"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "Güvenlik Sensörü",
+      "desc": "PIR hareket algılama sensörü. İç mekan güvenliği için hassas hareket tespiti sağlar.",
+      "img": "/stock/aparat.png",
+      "category": "Güvenlik Aparatları",
+      "brand": "Teletek",
+      "features": [
+        "PIR teknolojisi",
+        "12m algılama menzili",
+        "Ayarlanabilir hassasiyet",
+        "Tamper koruması",
+        "Düşük güç tüketimi"
+      ]
+    },
+    {
+      "id": 15,
+      "title": "Manyetik Kapı Sensörü",
+      "desc": "Kapı ve pencere güvenliği için manyetik contact sensörü. Açılma anında uyarı verir.",
+      "img": "/stock/aparat.png",
+      "category": "Güvenlik Aparatları",
+      "brand": "Fonri",
+      "features": [
+        "Manyetik contact",
+        "Gizli montaj",
+        "Yüksek güvenilirlik",
+        "Hava koşullarına dayanıklı",
+        "Kolay kurulum"
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Siren ve Flaşör",
+      "desc": "Güvenlik sistemleri için sesli ve ışıklı uyarı cihazı. Caydırıcı etki sağlar.",
+      "img": "/stock/aparat.png",
+      "category": "Güvenlik Aparatları",
+      "brand": "Radem",
+      "features": [
+        "120dB ses seviyesi",
+        "LED strobo flaş",
+        "Tamper koruması",
+        "Dış mekan uyumlu",
+        "Backup batarya"
+      ]
+    },
+    {
+      "id": 17,
+      "title": "Kablosuz Keypad",
+      "desc": "Güvenlik sistemi için kablosuz şifreli klavye. Uzaktan sistem kontrolü sağlar.",
+      "img": "/stock/aparat.png",
+      "category": "Güvenlik Aparatları",
+      "brand": "Idex",
+      "features": [
+        "Kablosuz bağlantı",
+        "LCD ekran",
+        "Çoklu kullanıcı kodu",
+        "Duress kod",
+        "Backlight özelliği"
+      ]
+    },
+    {
+      "title": "asd",
+      "desc": "sad",
+      "category": "",
+      "brand": "Everday",
+      "img": "/stock/camera.png",
+      "features": [
+        "aaa"
+      ],
+      "id": 18
+    },
+    {
+      "title": "asdsa",
+      "desc": "asdasd",
+      "category": "Kamera Sistemleri",
+      "brand": "Rubezh",
+      "img": "/stock/camera.png",
+      "features": [
+        "sad",
+        "asd",
+        "das",
+        "zzz"
+      ],
+      "id": 19
+    }
+  ],
+  "brands": [
+    {
+      "id": 1,
+      "name": "Cambox",
+      "logo": "/brands/cambox.jpeg",
+      "website": "https://cambox.com",
+      "description": "Güvenlik kamera sistemleri"
+    },
+    {
+      "id": 2,
+      "name": "Everday",
+      "logo": "/brands/everday.jpeg",
+      "website": "https://everday.com",
+      "description": "Güvenlik çözümleri"
+    },
+    {
+      "id": 3,
+      "name": "Fonri",
+      "logo": "/brands/fonri.jpeg",
+      "website": "https://fonri.com",
+      "description": "Alarm sistemleri"
+    },
+    {
+      "id": 4,
+      "name": "Idex",
+      "logo": "/brands/idex.jpeg",
+      "website": "https://idex.com",
+      "description": "Biyometrik sistemler"
+    },
+    {
+      "id": 5,
+      "name": "Imou",
+      "logo": "/brands/imou.jpeg",
+      "website": "https://imou.com",
+      "description": "IP kamera sistemleri"
+    },
+    {
+      "id": 6,
+      "name": "Kodicom",
+      "logo": "/brands/kodicom.jpeg",
+      "website": "https://kodicom.com",
+      "description": "Video yönetim sistemleri"
+    },
+    {
+      "id": 7,
+      "name": "Radem",
+      "logo": "/brands/radem.jpeg",
+      "website": "https://radem.com",
+      "description": "Güvenlik aparatları"
+    },
+    {
+      "id": 8,
+      "name": "Rubezh",
+      "logo": "/brands/rubezh.jpeg",
+      "website": "https://rubezh.com",
+      "description": "Yangın alarm sistemleri"
+    },
+    {
+      "id": 9,
+      "name": "Teletek",
+      "logo": "/brands/teletek.jpeg",
+      "website": "https://teletek.com",
+      "description": "Alarm ve güvenlik sistemleri"
+    },
+    {
+      "id": 10,
+      "name": "Tiandy",
+      "logo": "/brands/tiandy.jpeg",
+      "website": "https://tiandy.com",
+      "description": "Video gözetleme sistemleri"
+    },
+    {
+      "id": 11,
+      "name": "ZKT",
+      "logo": "/brands/zkt.jpeg",
+      "website": "https://zkteco.com",
+      "description": "Geçiş kontrol ve zaman takip sistemleri"
+    }
+  ]
+}

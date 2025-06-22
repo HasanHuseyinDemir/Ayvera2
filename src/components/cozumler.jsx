@@ -2,6 +2,7 @@ import { component$ } from '@builder.io/qwik';
 import { CardContainer } from './cardContainer';
 import CardBlock from './cardblock';
 
+
 export const Cozumler = component$(() => {
   return (
   <CardContainer>
@@ -11,7 +12,7 @@ export const Cozumler = component$(() => {
         <CardBlock title="Güvenlik Aparatları" bgImage="/stock/aparat.png"/>
         <CardBlock title="Yangın Sistemleri" bgImage="/stock/yangin.png"/>
         <CardBlock title="Kablo Çeşitleri" bgImage="/stock/kablo.png"/>
-        <CardBlock title="Geçiş Güvenlik Sistemleri" bgImage="/stock/gecis.png"/>
+        <CardBlock title="Geçiş Sistemleri" bgImage="/stock/gecis.png"/>
     </CardContainer>
     )
 });

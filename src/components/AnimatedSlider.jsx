@@ -21,7 +21,7 @@ export const AnimatedSlider = component$(({ slides = [] }) => {
       ))}
       <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
         {slides.map((_, idx) => (
-          <button key={idx} class={`w-3 h-3 rounded-full ${current.value === idx ? 'bg-cyan-600' : 'bg-white'}`}/>
+          <button key={idx} class={`w-3 h-3 rounded-full ${current.value === idx ? 'bg-blue-600' : 'bg-white'}`}/>
         ))}
       </div>
     </div>

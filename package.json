@@ -27,6 +27,7 @@
     "@builder.io/qwik": "^1.14.1",
     "@builder.io/qwik-city": "^1.14.1",
     "@eslint/js": "latest",
+    "@qwikest/icons": "0.0.13",
     "@types/node": "20.14.11",
     "eslint": "9.25.1",
     "eslint-plugin-qwik": "^1.14.1",
@@ -37,11 +38,12 @@
     "undici": "*",
     "vercel": "^29.1.1",
     "vite": "5.3.5",
-    "vite-tsconfig-paths": "^4.2.1",
-    "@qwikest/icons": "0.0.13"
+    "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
+    "lowdb": "^3.0.0",
+    "nodemailer": "^7.0.3",
     "tailwindcss": "^4.1.7"
   }
 }

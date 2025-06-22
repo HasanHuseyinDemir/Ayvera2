@@ -4,7 +4,7 @@ import {BsFacebook, BsInstagram, BsMailbox, BsShop, BsTelephone} from "@qwikest/
 
 export const Bottom= component$(() => {
   return (
-    <footer class="bg-cyan-900 text-white py-10">
+    <footer class="bg-blue-900 text-white py-10">
       <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* İletişim Bilgileri */}
         <div>
@@ -58,27 +58,27 @@ export const Bottom= component$(() => {
         </div>
       </div>
 
-      <div class="mt-10 text-center text-base text-cyan-100 max-w-3xl mx-auto">
+      <div class="mt-10 text-center text-base text-blue-100 max-w-3xl mx-auto">
         <strong>Ayvera Güvenlik</strong> olarak, bireysel ve kurumsal müşterilerimizin güvenliğini en üst düzeyde sağlamak için yenilikçi çözümler sunuyoruz. Deneyimli ekibimiz ve güçlü teknik altyapımız ile, her zaman yanınızdayız.
       </div>
 
       {/* Bizi Neden Tercih Etmelisiniz Bölümü */}
       <div class="mt-10 flex flex-col md:flex-row justify-center items-stretch gap-6 max-w-5xl mx-auto">
-        <div class="flex-1 bg-cyan-800/80 rounded-lg p-6 text-center shadow-md">
-          <h4 class="text-lg font-bold text-cyan-200 mb-2">Uzman Kadro</h4>
-          <p class="text-cyan-100 text-sm">Alanında deneyimli ve eğitimli personel ile profesyonel hizmet.</p>
+        <div class="flex-1 bg-blue-800/80 rounded-lg p-6 text-center shadow-md">
+          <h4 class="text-lg font-bold text-blue-200 mb-2">Uzman Kadro</h4>
+          <p class="text-blue-100 text-sm">Alanında deneyimli ve eğitimli personel ile profesyonel hizmet.</p>
         </div>
-        <div class="flex-1 bg-cyan-800/80 rounded-lg p-6 text-center shadow-md">
-          <h4 class="text-lg font-bold text-cyan-200 mb-2">7/24 Destek</h4>
-          <p class="text-cyan-100 text-sm">Her an ulaşabileceğiniz teknik destek ve hızlı çözüm.</p>
+        <div class="flex-1 bg-blue-800/80 rounded-lg p-6 text-center shadow-md">
+          <h4 class="text-lg font-bold text-blue-200 mb-2">7/24 Destek</h4>
+          <p class="text-blue-100 text-sm">Her an ulaşabileceğiniz teknik destek ve hızlı çözüm.</p>
         </div>
-        <div class="flex-1 bg-cyan-800/80 rounded-lg p-6 text-center shadow-md">
-          <h4 class="text-lg font-bold text-cyan-200 mb-2">Güvenilir Teknoloji</h4>
-          <p class="text-cyan-100 text-sm">En güncel ve güvenilir güvenlik sistemleriyle tam koruma.</p>
+        <div class="flex-1 bg-blue-800/80 rounded-lg p-6 text-center shadow-md">
+          <h4 class="text-lg font-bold text-blue-200 mb-2">Güvenilir Teknoloji</h4>
+          <p class="text-blue-100 text-sm">En güncel ve güvenilir güvenlik sistemleriyle tam koruma.</p>
         </div>
       </div>
 
-      <div class="mt-10 text-center text-xs text-cyan-200">
+      <div class="mt-10 text-center text-xs text-blue-200">
         © {new Date().getFullYear()} <Link href="https://ayvera.com.tr/">ayvera.com.tr</Link> - Tüm hakları saklıdır.
       </div>
       {/* Ödeme Yöntemleri İkonları */}

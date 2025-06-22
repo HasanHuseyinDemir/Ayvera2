@@ -1,14 +1,72 @@
-# Qwik City App ⚡️
+# Ayvera Güvenlik Web Sitesi ⚡️
 
-- [Qwik Docs](https://qwik.dev/)
-- [Discord](https://qwik.dev/chat)
-- [Qwik GitHub](https://github.com/QwikDev/qwik)
-- [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
+Modern güvenlik teknolojileri firması için Qwik ile geliştirilmiş web sitesi.
 
----
+## 🚀 Özellikler
 
-## Project Structure
+- ⚡ **Qwik Framework** ile ultra hızlı performans
+- 📱 **Responsive Design** - Mobil uyumlu tasarım
+- 🎨 **Tailwind CSS** ile modern arayüz
+- 🛡️ **Admin Panel** ile içerik yönetimi  
+- 📧 **İletişim Formu** ve mail bildirimleri
+- 🔍 **Ürün Filtreleme** ve arama sistemi
+- 🎭 **Loading Animasyonları** ve UX iyileştirmeleri
+
+## 📧 Mail Servisi Kurulumu
+
+Web sitesinde iletişim formu gönderildiğinde otomatik mail bildirimi gönderilmesi için:
+
+### 1. Environment Variables Ayarlama
+
+`.env.example` dosyasını `.env` olarak kopyalayın ve mail bilgilerinizi girin:
+
+```bash
+cp .env.example .env
+```
+
+### 2. Gmail için Ayarlar
+
+Gmail kullanıyorsanız **App Password** oluşturmanız gerekir:
+
+1. Gmail hesabınızda **2FA (İki Faktörlü Doğrulama)** aktif olmalı
+2. Google Account > Security > 2-Step Verification > App passwords
+3. Oluşturulan app password'u `.env` dosyasına yazın
+
+```env
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-16-character-app-password
+```
+
+### 3. Diğer Mail Servisleri
+
+**Outlook/Hotmail:**
+```env
+EMAIL_HOST=smtp-mail.outlook.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@outlook.com
+EMAIL_PASS=your-password
+```
+
+**Yandex:**
+```env
+EMAIL_HOST=smtp.yandex.com
+EMAIL_PORT=465
+```
+
+### 4. Test Etme
+
+Admin panelde **"Mail Servisi Test Et"** butonuna tıklayarak mail ayarlarınızı test edebilirsiniz.
+
+### 5. Mail Özellikleri
+
+- ✅ **Otomatik Bildirim**: Yeni mesaj geldiğinde admin'e mail
+- ✅ **Otomatik Yanıt**: Mesaj gönderen kişiye onay maili  
+- ✅ **HTML Template**: Profesyonel mail tasarımı
+- ✅ **IP Kayıt**: Mesajla birlikte IP adresi kaydedilir
+
+## 🔧 Kurulum
 
 This project is using Qwik with [QwikCity](https://qwik.dev/qwikcity/overview/). QwikCity is just an extra set of tools on top of Qwik to make it easier to build a full site, including directory-based routing, layouts, and more.
 

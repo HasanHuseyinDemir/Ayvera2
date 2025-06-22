@@ -1,4 +1,5 @@
 import { component$, useSignal } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
 
 // Sabit iletişim widget'ı
 export const ContactWidget = component$(() => {
@@ -12,7 +13,7 @@ export const ContactWidget = component$(() => {
         <div class="mt-2 bg-white text-cyan-900 rounded-lg shadow-lg p-4 w-64">
           <h3 class="font-bold mb-2">Bize Ulaşın</h3>
           <p class="text-sm mb-2">Sorunuz mu var? Size yardımcı olalım.</p>
-          <a href="/content/iletisim#content" class="block bg-cyan-700 text-white text-center rounded py-2 font-semibold hover:bg-cyan-800 transition">İletişim Formu</a>
+          <Link href="/content/iletisim#content" class="block bg-cyan-700 text-white text-center rounded py-2 font-semibold hover:bg-cyan-800 transition">İletişim Formu</Link>
         </div>
       )}
     </div>
