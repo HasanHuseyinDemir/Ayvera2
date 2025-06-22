@@ -2,12 +2,15 @@
   "products": [
     {
       "id": 6,
-      "title": "Ses Sistemi Paketi",
+      "title": "Ses Sistemi Paketis",
       "desc": "Anons ve müzik sistemi paketi. Hoparlör, mikser ve amplifikatör dahil tam çözüm.",
       "img": "/stock/ses.png",
-      "category": "Kamera Sistemleri2",
+      "category": "Kamera Sistemleri",
       "brand": "Rubezh",
-      "features": [],
+      "features": [
+        "sda",
+        "asd"
+      ],
       "driver": "",
       "pdf": ""
     },
@@ -185,6 +188,19 @@
         "zzz"
       ],
       "id": 19
+    },
+    {
+      "title": "Av Tech 1105",
+      "desc": ".",
+      "category": "Kamera Sistemleri",
+      "brand": "Av Tech",
+      "img": "https://ayvera.com.tr/Resim/Minik/1500x1000_thumb_st00774.png",
+      "features": [
+        "Ahd",
+        "2MP Çözünürlük",
+        "Bullet Kamera"
+      ],
+      "id": 20
     }
   ],
   "brands": [
@@ -264,6 +280,12 @@
       "logo": "/brands/zkt.jpeg",
       "website": "https://zkteco.com",
       "description": "Geçiş kontrol ve zaman takip sistemleri"
+    },
+    {
+      "name": "Av Tech",
+      "logo": "/brands/avtech.png",
+      "description": "Kamera Güvenlik",
+      "id": 12
     }
   ]
 }

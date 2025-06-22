@@ -373,29 +373,29 @@ export default component$(() => {
           <div class="bg-white rounded-2xl p-8 shadow-lg overflow-hidden">
             {/* Kayan Marka Slider */}
             <div class="relative">
-              <div class="flex animate-scroll space-x-12 items-center">
+              <div class="flex animate-scroll space-x-8 items-center">
                 {brands.value.length > 0 ? (
                   <>
                     {/* İlk Set */}
                     {brands.value.map((brand) => (
-                      <div key={brand.id} class="flex items-center justify-center min-w-[120px] h-16">
+                      <div key={brand.id} class="flex items-center justify-center w-32 h-16 flex-shrink-0">
                         <img 
                           src={brand.logo} 
                           alt={brand.name} 
                           title={brand.description}
-                          class="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100" 
+                          class="max-h-12 max-w-[100px] w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 bg-white rounded"
                         />
                       </div>
                     ))}
                     
                     {/* İkinci Set - Sonsuz döngü için */}
                     {brands.value.map((brand) => (
-                      <div key={`${brand.id}-2`} class="flex items-center justify-center min-w-[120px] h-16">
+                      <div key={`${brand.id}-2`} class="flex items-center justify-center w-32 h-16 flex-shrink-0">
                         <img 
                           src={brand.logo} 
                           alt={brand.name} 
                           title={brand.description}
-                          class="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100" 
+                          class="max-h-12 max-w-[100px] w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 bg-white rounded"
                         />
                       </div>
                     ))}
@@ -403,25 +403,25 @@ export default component$(() => {
                 ) : (
                   /* Fallback - Static brands */
                   <>
-                    <div class="flex items-center justify-center min-w-[120px] h-16">
+                    <div class="flex items-center justify-center w-32 h-16 flex-shrink-0">
                       <img 
                         src="/brands/imou.jpeg" 
                         alt="Imou" 
-                        class="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100" 
+                        class="max-h-12 max-w-[100px] w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 bg-white rounded"
                       />
                     </div>
-                    <div class="flex items-center justify-center min-w-[120px] h-16">
+                    <div class="flex items-center justify-center w-32 h-16 flex-shrink-0">
                       <img 
                         src="/brands/teletek.jpeg" 
                         alt="Teletek" 
-                        class="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100" 
+                        class="max-h-12 max-w-[100px] w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 bg-white rounded"
                       />
                     </div>
-                    <div class="flex items-center justify-center min-w-[120px] h-16">
+                    <div class="flex items-center justify-center w-32 h-16 flex-shrink-0">
                       <img 
                         src="/brands/tiandy.jpeg" 
                         alt="Tiandy" 
-                        class="h-12 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100" 
+                        class="max-h-12 max-w-[100px] w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100 bg-white rounded"
                       />
                     </div>
                   </>
