@@ -19,7 +19,6 @@ export default component$(() => {
 
   // TEST: Sayfa yüklendiğinde otomatik giriş yap
   useTask$(async () => {
-    console.log('🔓 TEST MODU: Otomatik panel girişi aktif');
     state.isAuth = true;
     if (typeof window !== 'undefined') {
       createPanelSession(); // Session oluştur
@@ -27,14 +26,6 @@ export default component$(() => {
   });
 
   const handleLogin = $(async (inputPassword) => {
-    console.log('🔐 Giriş denemesi:', { 
-      inputPassword, 
-      inputType: typeof inputPassword,
-      inputLength: inputPassword?.length,
-      expectedPassword: config.panelPassword,
-      expectedType: typeof config.panelPassword
-    });
-    
     if (!inputPassword || inputPassword.trim() === '') {
       error.value = 'Şifre girmeniz gerekiyor!';
       return;
@@ -47,11 +38,9 @@ export default component$(() => {
       // Session cookie oluştur
       createPanelSession();
       
-      console.log('✅ Panel girişi başarılı - Session oluşturuldu');
     } else {
       error.value = 'Hatalı şifre!';
       password.value = '';
-      console.log('❌ Panel girişi başarısız - Şifre uyumsuz');
     }
   });
 
@@ -62,8 +51,6 @@ export default component$(() => {
     
     // Session cookie'sini sil
     clearPanelSession();
-    
-    console.log('🔒 Panel çıkışı yapıldı - Session silindi');
   });
 
   return (

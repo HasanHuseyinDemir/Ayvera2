@@ -27,13 +27,11 @@ export default component$(() => {
     
     // Path değişti, yeni sayfa yükleniyor
     if (previousPath.value !== currentPath) {
-      console.log('🔄 Sayfa geçişi başladı:', previousPath.value, '->', currentPath);
       isNavigating.value = true;
       
       // Kısa bir süre sonra loading'i kapat (sayfa render olduktan sonra)
       setTimeout(() => {
         isNavigating.value = false;
-        console.log('✅ Sayfa geçişi tamamlandı');
       }, 500);
       
       previousPath.value = currentPath;
@@ -48,7 +46,6 @@ export default component$(() => {
         const { readCategories } = await import('~/services/db.js');
         const data = await readCategories();
         categories.list = data;
-        console.log('✅ Layout SSR: Kategoriler yüklendi:', data.length);
       }
     } catch (error) {
       console.error('❌ Layout: Kategori yükleme hatası:', error);
@@ -59,11 +56,9 @@ export default component$(() => {
   useVisibleTask$(async () => {
     if (categories.list.length === 0) {
       try {
-        console.log('🔄 Layout Client: Kategoriler yükleniyor...');
         const { readCategories } = await import('~/services/db.js');
         const data = await readCategories();
         categories.list = data;
-        console.log('✅ Layout Client: Kategoriler yüklendi:', data.length);
       } catch (error) {
         console.error('❌ Layout Client: Kategori yükleme hatası:', error);
       }
@@ -75,7 +70,6 @@ export default component$(() => {
     const isCozumlerPage = location.url.pathname.startsWith('/content/cozumler');
     
     if (!isCozumlerPage) {
-      console.log('Çözümler sayfası değil, hash scroll devre dışı');
       return;
     }
     
@@ -85,7 +79,6 @@ export default component$(() => {
         if (el) {
           const y = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT;
           window.scrollTo({ top: y, behavior: 'smooth' });
-          console.log('Hash scroll yapıldı: #content');
         }
       }
     };

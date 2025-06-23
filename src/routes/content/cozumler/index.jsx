@@ -44,8 +44,6 @@ export default component$((props) => {
     const newSearch = loc.url.searchParams.get('search');
     const newPage = parseInt(loc.url.searchParams.get('page')) || 1;
     
-    console.log('URL değişti:', { newCategory, newSearch, newPage });
-    
     localCategory.value = newCategory;
     localSearch.value = newSearch || '';
     currentPage.value = newPage;
@@ -62,44 +60,27 @@ export default component$((props) => {
   // Layout'tan ürünleri al
   useTask$(({ track }) => {
     track(() => layoutProducts?.value);
-    console.log('📦 Layout products değişti:', {
-      hasLayoutProducts: !!layoutProducts?.value,
-      layoutProductsLength: layoutProducts?.value?.length || 0,
-      currentProductsLength: products.value.length,
-      loading: loading.value
-    });
     
     if (layoutProducts?.value && Array.isArray(layoutProducts.value)) {
       products.value = layoutProducts.value;
       loading.value = false;
-      console.log('✅ Layout\'tan products alındı:', layoutProducts.value.length);
     }
   });
 
   // Fallback: Layout'tan gelmezse DB'den yükle
   useTask$(async () => {
-    console.log('🔄 Fallback task çalışıyor:', {
-      hasLayoutProducts: !!layoutProducts?.value,
-      productsLength: products.value.length,
-      loading: loading.value
-    });
-    
     // Layout'tan gelmezse veya products boşsa yükle
     if ((!layoutProducts?.value || layoutProducts.value.length === 0) && products.value.length === 0) {
-      console.log('🔄 Fallback yükleme başlıyor...');
       try {
         if (typeof window === 'undefined') {
           const { readProducts } = await import('~/services/db.js');
           const data = await readProducts();
           products.value = data;
-          console.log('✅ Index SSR: Fallback ürünler yüklendi:', data.length);
         } else {
-          console.log('🔍 Debug: API yerine doğrudan DB\'den okuyorum...');
           // API çalışmıyor, doğrudan service kullan
           const { readProducts } = await import('~/services/db.js');
           const data = await readProducts();
           products.value = data;
-          console.log('✅ Index Client: DB\'den ürünler alındı:', data.length);
         }
       } catch (err) {
         console.error('❌ Index: Fallback ürün yükleme hatası:', err);
@@ -120,16 +101,7 @@ export default component$((props) => {
     track(() => products.value);
     track(() => currentPage.value);
     
-    console.log('🔄 Reaktif filtreleme çalışıyor:', {
-      category: localCategory.value,
-      search: localSearch.value,
-      productCount: products.value.length,
-      loading: loading.value,
-      hasLayoutProducts: !!layoutProducts?.value?.length
-    });
-    
     if (!products.value || !Array.isArray(products.value)) {
-      console.log('⚠️ Products boş, filtreleme atlanıyor');
       filteredProducts.value = [];
       paginatedProducts.value = [];
       totalPages.value = 0;
@@ -144,7 +116,6 @@ export default component$((props) => {
           behavior: 'smooth',
           block: 'start'
         });
-        console.log('📍 Filtre değişti: #content elementine scroll yapıldı');
       }
     }
     
@@ -162,7 +133,6 @@ export default component$((props) => {
       return matchesCategory && matchesSearch;
     });
     
-    console.log('Filtrelenmiş ürün sayısı:', filtered.length);
     filteredProducts.value = filtered;
     
     // Pagination
@@ -175,8 +145,6 @@ export default component$((props) => {
     
     const startIndex = (currentPage.value - 1) * itemsPerPage;
     paginatedProducts.value = filtered.slice(startIndex, startIndex + itemsPerPage);
-    
-    console.log(`Sayfa ${currentPage.value}/${totalPagesCount} - ${paginatedProducts.value.length} ürün gösteriliyor`);
   });
 
   // Filtre değiştirme fonksiyonları
@@ -193,7 +161,6 @@ export default component$((props) => {
           behavior: 'smooth',
           block: 'start'
         });
-        console.log('📍 Kategori değişti: #content elementine scroll yapıldı');
       }
     }, 100);
     
@@ -225,7 +192,6 @@ export default component$((props) => {
           behavior: 'smooth',
           block: 'start'
         });
-        console.log('📍 Arama değişti: #content elementine scroll yapıldı');
       }
     }, 100);
     
@@ -253,7 +219,6 @@ export default component$((props) => {
           behavior: 'smooth',
           block: 'start'
         });
-        console.log('📍 Sayfa değişti: #content elementine scroll yapıldı');
       }
     }, 100);
     
@@ -293,7 +258,6 @@ export default component$((props) => {
             behavior: 'smooth',
             block: 'start'
           });
-          console.log('#content elementine scroll yapıldı');
         }
       }, 100);
       return;
@@ -302,7 +266,6 @@ export default component$((props) => {
     // Sayfa ilk yüklendiğinde scrollu en üste getir
     if (document.referrer && !document.referrer.includes('/content/cozumler')) {
       window.scrollTo(0, 0);
-      console.log('Yeni sayfaya gelindi, scroll sıfırlandı');
       return;
     }
     
@@ -310,13 +273,11 @@ export default component$((props) => {
     if (lastScrollPosition.value > 0) {
       setTimeout(() => {
         window.scrollTo(0, lastScrollPosition.value);
-        console.log('Scroll pozisyonu korundu:', lastScrollPosition.value);
       }, 10);
     }
     
     // Mevcut scroll pozisyonunu kaydet
     lastScrollPosition.value = window.scrollY;
-    console.log('Scroll pozisyonu kaydedildi:', lastScrollPosition.value);
   });
 
   if (loading.value) {

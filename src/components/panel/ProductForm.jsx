@@ -2,14 +2,6 @@ import { component$, useSignal, $, useTask$, useVisibleTask$ } from '@builder.io
 
 export const ProductForm = component$(({ product = {}, categories = [], brands = [], onSuccess$, onCancel$ }) => {
   
-  console.log('🚀 ProductForm başlatılıyor', {
-    product: product,
-    categoriesLength: categories.length,
-    brandsLength: brands.length,
-    hasProduct: !!product,
-    productId: product?.id
-  });
-  
   // Signal'ları direkt product ile başlat - field mapping ile
   const name = useSignal(product?.title || product?.name || '');
   const description = useSignal(product?.desc || product?.description || '');
@@ -23,11 +15,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
   // Dosya yükleme için state
   const driverFile = useSignal(null);
   const pdfFile = useSignal(null);
-
-  console.log('🚀 ProductForm başlatılıyor');
-  console.log('Product:', product);
-  console.log('Categories:', categories);
-  console.log('Brands:', brands);
 
   // Kategori ismine göre ID tahmin etme fonksiyonu (fallback)
   const getFallbackCategoryId = (categoryName) => {
@@ -63,8 +50,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
 
   // Kategori ve marka değerlerini ayarlayan fonksiyon
   const updateCategoryAndBrand = $(async () => {
-    console.log('🔄 updateCategoryAndBrand çalışıyor');
-    
     // Kategori ayarla
     if (product?.category) {
       let categoryId = null;
@@ -74,7 +59,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
         const categoryObj = categories.find(c => c.name === product.category);
         if (categoryObj) {
           categoryId = categoryObj.id.toString();
-          console.log('✅ Kategori categories dizisinden bulundu:', categoryObj.name, '->', categoryObj.id);
         }
       }
       
@@ -82,7 +66,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
       if (!categoryId) {
         categoryId = getFallbackCategoryId(product.category);
         if (categoryId) {
-          console.log('🔧 Kategori fallback\'ten bulundu:', product.category, '->', categoryId);
         } else {
           console.warn('⚠️ Kategori hiçbir yerde bulunamadı:', product.category);
         }
@@ -91,7 +74,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
       // Değeri ayarla
       if (categoryId && category.value !== categoryId) {
         category.value = categoryId;
-        console.log('📝 Kategori değeri ayarlandı:', categoryId);
       }
     }
     
@@ -104,7 +86,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
         const brandObj = brands.find(b => b.name === product.brand);
         if (brandObj) {
           brandId = brandObj.id.toString();
-          console.log('✅ Marka brands dizisinden bulundu:', brandObj.name, '->', brandObj.id);
         }
       }
       
@@ -112,7 +93,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
       if (!brandId) {
         brandId = await getFallbackBrandId(product.brand);
         if (brandId) {
-          console.log('🔧 Marka fallback\'ten bulundu:', product.brand, '->', brandId);
         } else {
           console.warn('⚠️ Marka hiçbir yerde bulunamadı:', product.brand);
         }
@@ -121,7 +101,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
       // Değeri ayarla
       if (brandId && brand.value !== brandId) {
         brand.value = brandId;
-        console.log('📝 Marka değeri ayarlandı:', brandId);
       }
     }
   });
@@ -132,23 +111,12 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
     track(() => brands);
     track(() => product);
     
-    console.log('🔄 useVisibleTask çalışıyor:', {
-      product: product?.id || 'yeni',
-      productCategory: product?.category,
-      productBrand: product?.brand,
-      categoriesLength: categories.length,
-      brandsLength: brands.length,
-      currentCategoryValue: category.value,
-      currentBrandValue: brand.value
-    });
-    
     // Her değişiklikte update fonksiyonunu çağır
     await updateCategoryAndBrand();
   });
 
   // Component mount'ta da çalıştır (timing garantisi için)
   useVisibleTask$(async () => {
-    console.log('🏁 Component mount - kategori/marka ayarlanıyor');
     // Kısa bir gecikme ile çalıştır
     setTimeout(async () => {
       await updateCategoryAndBrand();
@@ -223,22 +191,9 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
       loading.value = true;
       error.value = '';
 
-      console.log('🚀 Form submit başladı');
-      console.log('📋 Form değerleri:', {
-        name: name.value,
-        description: description.value,
-        category: category.value,
-        brand: brand.value,
-        image: image.value,
-        features: features.value
-      });
-
       // Kategori ve marka ID'lerinden isimlerini bul
       const selectedCategory = categories.find(c => c.id.toString() === category.value);
       const selectedBrand = brands.find(b => b.id.toString() === brand.value);
-
-      console.log('🔍 Bulunan kategori:', selectedCategory);
-      console.log('🔍 Bulunan marka:', selectedBrand);
 
       const response = await fetch(product?.id 
         ? `/api/products/${product.id}`
@@ -250,11 +205,8 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
         body: JSON.stringify(productData),
       });
 
-      console.log('📡 API Response status:', response.status);
-      
       if (response.ok) {
         const responseData = await response.json();
-        console.log('✅ Ürün başarıyla kaydedildi, response:', responseData);
         
         // Success callback'i çağır (ProductList verileri yeniden yükleyecek)
         await onSuccess$();
@@ -365,7 +317,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
                 value={category.value}
                 onChange$={(e) => {
                   category.value = e.target.value;
-                  console.log('🏷️ Kategori seçildi:', e.target.value, categories.find(c => c.id.toString() === e.target.value)?.name);
                 }}
                 class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 font-medium"
               >
@@ -397,7 +348,6 @@ export const ProductForm = component$(({ product = {}, categories = [], brands =
                 value={brand.value}
                 onChange$={(e) => {
                   brand.value = e.target.value;
-                  console.log('🏢 Marka seçildi:', e.target.value, brands.find(b => b.id.toString() === e.target.value)?.name);
                 }}
                 class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 font-medium"
               >
