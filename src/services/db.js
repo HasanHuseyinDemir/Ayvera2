@@ -201,7 +201,7 @@ export async function writeBrands(brands) {
     try {
       await fs.promises.unlink(tempPath);
     } catch {
-      throw error;
+      // Temizleme hatası önemli değil
     }
   }
 }
@@ -269,7 +269,7 @@ export async function readCategories() {
     const parsed = JSON.parse(data);
     return parsed.categories || [];
   } catch (error) {
-    console.log('DB: Dosya bulunamadı, yeni dosya oluşturuluyor...');
+    console.log('DB: Dosya bulunamadı, yeni dosya oluşturuluyor...',error.message);
     await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
     return [];
   }
@@ -298,7 +298,9 @@ export async function writeCategories(categories) {
     console.error('DB: Categories yazma hatası:', error);
     try {
       await fs.promises.unlink(tempPath);
-    } catch {}
+    } catch {
+      // Temizleme hatası önemli değil
+    }
     throw error;
   }
 }
