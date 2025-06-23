@@ -203,6 +203,7 @@ export async function writeBrands(brands) {
     } catch {
       // Temizleme hatası önemli değil
     }
+    throw error;
   }
 }
 

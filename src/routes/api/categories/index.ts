@@ -1,7 +1,7 @@
 import type { RequestEvent } from '@builder.io/qwik-city';
 import { readCategories, addCategory } from '~/services/db.js';
 
-export const onGet = async (_requestEvent: RequestEvent) => {
+export const onGet = async () => {
   console.log('📁 API: GET /api/categories çağrıldı');
   try {
     const categories = await readCategories();
@@ -40,7 +40,7 @@ export const onPost = async ({ request }: RequestEvent) => {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error: any) {
-    console.error('❌ Category POST hatası:', error);
+    console.error('❌ Categories POST hatası:', error);
     return new Response(JSON.stringify({ error: 'Kategori eklenemedi' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }

@@ -2,7 +2,7 @@ import type { RequestEvent } from '@builder.io/qwik-city';
 import { readProducts, addProduct } from '~/services/db.js';
 
 // GET: Tüm ürünler
-export const onGet = async (_requestEvent: RequestEvent) => {
+export const onGet = async () => {
   console.log('API: GET /api/products çağrıldı');
   try {
     console.log('API: readProducts fonksiyonu çağrılıyor...');

@@ -1,4 +1,4 @@
-import type { RequestEvent } from '@builder.io/qwik-city';
+/*import type { RequestEvent } from '@builder.io/qwik-city';
 
 export const onPost = async ({ request }: RequestEvent) => {
   try {
@@ -8,7 +8,7 @@ export const onPost = async ({ request }: RequestEvent) => {
       return new Response(JSON.stringify({ error: 'Dosya bulunamadı' }), { status: 400 });
     }
     // Node.js File API
-    // @ts-ignore
+    // @ts-expect-error
     const buffer = Buffer.from(await file.arrayBuffer());
     const fs = await import('node:fs');
     const path = await import('node:path');
@@ -30,3 +30,4 @@ export const onPost = async ({ request }: RequestEvent) => {
     return new Response(JSON.stringify({ error: err.message }), { status: 500 });
   }
 };
+*/

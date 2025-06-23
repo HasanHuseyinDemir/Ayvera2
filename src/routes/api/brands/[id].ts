@@ -10,7 +10,7 @@ export const onPut = async ({ request, params }: RequestEvent) => {
       return new Response(JSON.stringify({ error: 'Marka bulunamadı' }), { status: 404 });
     }
     return new Response(JSON.stringify(updated), { status: 200 });
-  } catch (error: any) {
+  } catch {
     return new Response(JSON.stringify({ error: 'Marka güncellenemedi' }), { status: 500 });
   }
 };
@@ -20,7 +20,7 @@ export const onDelete = async ({ params }: RequestEvent) => {
     const id = params.id;
     await deleteBrand(id);
     return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error: any) {
+  } catch {
     return new Response(JSON.stringify({ error: 'Marka silinemedi' }), { status: 500 });
   }
 };

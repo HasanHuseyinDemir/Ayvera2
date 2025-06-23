@@ -20,5 +20,5 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": ["src", "./*.d.ts", "./*.config.ts", "backup/(default)"]
+  "include": ["src", "./*.d.ts", "./*.config.ts", "backup/(default)", "backup/upload-file.tts11"]
 }

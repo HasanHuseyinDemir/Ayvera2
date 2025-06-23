@@ -1,6 +1,4 @@
-import type { RequestEvent } from '@builder.io/qwik-city';
-
-export const onGet = async (requestEvent: RequestEvent) => {
+export const onGet = async () => {
   console.log('TEST API: çağrıldı');
   
   const testData = [
