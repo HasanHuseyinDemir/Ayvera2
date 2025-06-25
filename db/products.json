@@ -26,7 +26,9 @@
         "BNC konnektörler",
         "100m kablo uzunluğu",
         "Güç adaptörü"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "id": 8,
@@ -41,7 +43,9 @@
         "Hareket tespiti",
         "Çift yönlü ses",
         "Bulut kayıt"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "id": 9,
@@ -56,7 +60,9 @@
         "Sabotaj koruması",
         "Backup batarya",
         "Profesyonel kurulum"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "id": 10,
@@ -71,7 +77,9 @@
         "TCP/IP bağlantı",
         "Rapor sistemi",
         "Su geçirmezdcv"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "id": 11,
@@ -86,7 +94,9 @@
         "Test butonu",
         "Düşük batarya uyarısı",
         "CE sertifikası"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "id": 12,
@@ -102,7 +112,9 @@
         "Auto tracking",
         "Preset pozisyonlar",
         "xxx"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "id": 14,
@@ -111,7 +123,7 @@
       "img": "/stock/aparat.png",
       "category": "Güvenlik Aparatları",
       "brand": "Teletek",
-      "driver": "https://example.com/driver",
+      "driver": "",
       "pdf": "https://example.com/manual.pdf",
       "features": [
         "PIR teknolojisi",
@@ -134,7 +146,9 @@
         "Yüksek güvenilirlik",
         "Hava koşullarına dayanıklı",
         "Kolay kurulum"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "id": 16,
@@ -149,7 +163,9 @@
         "Tamper koruması",
         "Dış mekan uyumlu",
         "Backup batarya"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "id": 17,
@@ -164,7 +180,9 @@
         "Çoklu kullanıcı kodu",
         "Duress kod",
         "Backlight özelliği"
-      ]
+      ],
+      "driver": "",
+      "pdf": ""
     },
     {
       "title": "asd",
@@ -175,7 +193,9 @@
       "features": [
         "aaa"
       ],
-      "id": 18
+      "id": 18,
+      "driver": "",
+      "pdf": ""
     },
     {
       "title": "asdsa",
@@ -189,7 +209,9 @@
         "das",
         "zzz"
       ],
-      "id": 19
+      "id": 19,
+      "driver": "",
+      "pdf": ""
     },
     {
       "title": "Av Tech 1105",
@@ -202,7 +224,9 @@
         "2MP Çözünürlük",
         "Bullet Kamera"
       ],
-      "id": 20
+      "id": 20,
+      "driver": "",
+      "pdf": ""
     }
   ],
   "brands": [

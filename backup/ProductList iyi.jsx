@@ -1,5 +1,5 @@
 import { component$, useSignal, useVisibleTask$, $ } from '@builder.io/qwik';
-import { SimpleProductForm } from './SimpleProductForm';
+import { SimpleProductForm } from '../src/components/panel/SimpleProductForm';
 
 export const ProductList = component$(() => {
   const products = useSignal([]);

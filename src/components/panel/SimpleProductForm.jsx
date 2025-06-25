@@ -29,6 +29,10 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
   const loading = useSignal(false);
   const error = useSignal('');
 
+  // PDF ve driver için state
+  const pdf = useSignal(product?.pdf || '');
+  const driver = useSignal(product?.driver || '');
+
   // Modal her açıldığında input sayısını güncelle
   useTask$(({ track }) => {
     track(() => product);
@@ -57,7 +61,9 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
         category: category.value,
         brand: brand.value,
         img: img.value.trim() || '/stock/camera.png',
-        features: featuresStore.list
+        features: featuresStore.list,
+        pdf: pdf.value.trim(),
+        driver: driver.value.trim()
       };
       const url = product?.id 
         ? `/api/products/${product.id}`
@@ -184,6 +190,30 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
             placeholder="/stock/camera.png"
             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
+        </div>
+
+        {/* PDF ve Driver Linki */}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">PDF Linki</label>
+            <input
+              type="url"
+              value={pdf.value}
+              onInput$={e => pdf.value = e.target.value}
+              placeholder="https://site.com/pdf/urun.pdf"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Driver Linki</label>
+            <input
+              type="url"
+              value={driver.value}
+              onInput$={e => driver.value = e.target.value}
+              placeholder="https://site.com/drivers/urun.zip"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
         </div>
 
         {/* Özellikler */}
