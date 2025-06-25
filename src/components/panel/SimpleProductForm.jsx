@@ -8,14 +8,6 @@ function getInitialFeatures(product) {
 }
 
 export const SimpleProductForm = component$(({ product = null, categories = [], brands = [], onSuccess$, onCancel$ }) => {
-  
-  console.log('🚀 SimpleProductForm başlatılıyor', {
-    product: product,
-    isEdit: !!product?.id,
-    categoriesLength: categories.length,
-    brandsLength: brands.length
-  });
-  
   // Form değerleri - basit ve sadece veritabanı alanları
   const title = useSignal(product?.title || '');
   const desc = useSignal(product?.desc || '');
