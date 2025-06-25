@@ -1,6 +1,8 @@
 import { component$, useSignal, useTask$, useVisibleTask$ } from '@builder.io/qwik';
 import { useLocation, routeLoader$ } from '@builder.io/qwik-city';
 import { Link } from '@builder.io/qwik-city';
+import { BsDownload, BsFilePdf } from '@qwikest/icons/bootstrap';
+
 // Server-side loader - Ürün ve marka detaylarını getir
 export const useProductData = routeLoader$(async (requestEvent) => {
   const productId = requestEvent.params.id;
@@ -172,6 +174,24 @@ export default component$(() => {
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {/* PDF ve Driver butonları - modern ve büyük CTA */}
+              {(product.driver || product.pdf) && (
+                <div class="flex flex-col sm:flex-row gap-4 mt-6 mb-2">
+                  {product.driver && (
+                                          <a  href={product.driver} download class="flex-1 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition-all duration-200 text-base gap-2" title="Driver İndir">
+                      <BsDownload class="w-5 h-5" />
+                      Driver İndir
+                    </a>
+                  )}
+                  {product.pdf && (
+                      <a  href={product.pdf} download class="flex-1 flex items-center justify-center bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition-all duration-200 text-base gap-2" title="PDF İndir">
+                        <BsFilePdf class="w-5 h-5" />
+                        PDF İndir
+                      </a>
+                  )}
                 </div>
               )}
 

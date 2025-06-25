@@ -29,7 +29,7 @@ export const Navbar = component$(() => {
       <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between text-white">
         {/* Logo */}
         <Link href="#content">
-          <img src="/ayvera.png" class="h-8" alt="Logo" />
+          <img src="/ayvera.png" class="h-9" alt="Logo" />
         </Link>
 
         {/* Hamburger Menu Button (Mobile Only) */}

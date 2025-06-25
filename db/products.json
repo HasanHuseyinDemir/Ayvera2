@@ -111,6 +111,8 @@
       "img": "/stock/aparat.png",
       "category": "Güvenlik Aparatları",
       "brand": "Teletek",
+      "driver": "https://example.com/driver",
+      "pdf": "https://example.com/manual.pdf",
       "features": [
         "PIR teknolojisi",
         "12m algılama menzili",

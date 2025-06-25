@@ -62,7 +62,12 @@ export async function readProducts() {
     
     // JSON parse ile güvenli okuma
     const parsed = JSON.parse(data);
-    return parsed.products || [];
+    // Eksik alanları tamamla
+    return (parsed.products || []).map(p => ({
+      ...p,
+      driver: typeof p.driver === 'string' ? p.driver : '',
+      pdf: typeof p.pdf === 'string' ? p.pdf : ''
+    }));
   } catch (error) {
     console.log('DB: Dosya okuma hatası, yeniden oluşturuluyor...', error.message);
     // Dosya yoksa veya bozuksa oluştur
