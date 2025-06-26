@@ -8,6 +8,14 @@ function getInitialFeatures(product) {
 }
 
 export const SimpleProductForm = component$(({ product = null, categories = [], brands = [], onSuccess$, onCancel$ }) => {
+  
+  console.log('🚀 SimpleProductForm başlatılıyor', {
+    product: product,
+    isEdit: !!product?.id,
+    categoriesLength: categories.length,
+    brandsLength: brands.length
+  });
+  
   // Form değerleri - basit ve sadece veritabanı alanları
   const title = useSignal(product?.title || '');
   const desc = useSignal(product?.desc || '');
@@ -24,6 +32,11 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
   // PDF ve driver için state
   const pdf = useSignal(product?.pdf || '');
   const driver = useSignal(product?.driver || '');
+
+  // Galeri için state
+  const gallery = useStore({ list: Array.isArray(product?.gallery) ? [...product.gallery] : [''] });
+  const galleryRefs = useStore({ arr: [] });
+  const galleryCount = useSignal(gallery.list.length || 1);
 
   // Modal her açıldığında input sayısını güncelle
   useTask$(({ track }) => {
@@ -47,6 +60,7 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
       // DOM'dan değerleri topla
       const features = featureRefs.arr.map(ref => ref?.value || '').filter(f => f.trim() !== '');
       featuresStore.list = features;
+      const galleryImages = galleryRefs.arr.map(ref => ref?.value || '').filter(url => url.trim() !== '');
       const productData = {
         title: title.value.trim(),
         desc: desc.value.trim(),
@@ -55,7 +69,8 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
         img: img.value.trim() || '/stock/camera.png',
         features: featuresStore.list,
         pdf: pdf.value.trim(),
-        driver: driver.value.trim()
+        driver: driver.value.trim(),
+        gallery: galleryImages
       };
       const url = product?.id 
         ? `/api/products/${product.id}`
@@ -184,30 +199,6 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
           />
         </div>
 
-        {/* PDF ve Driver Linki */}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">PDF Linki</label>
-            <input
-              type="url"
-              value={pdf.value}
-              onInput$={e => pdf.value = e.target.value}
-              placeholder="https://site.com/pdf/urun.pdf"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Driver Linki</label>
-            <input
-              type="url"
-              value={driver.value}
-              onInput$={e => driver.value = e.target.value}
-              placeholder="https://site.com/drivers/urun.zip"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-        </div>
-
         {/* Özellikler */}
         <div>
           <div class="flex items-center justify-between mb-2">
@@ -249,6 +240,58 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
           >
             Özellik Ekle
           </button>
+        </div>
+
+        {/* PDF ve Driver Linki */}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">PDF Linki</label>
+            <input
+              type="url"
+              value={pdf.value}
+              onInput$={e => pdf.value = e.target.value}
+              placeholder="https://site.com/pdf/urun.pdf"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Driver Linki</label>
+            <input
+              type="url"
+              value={driver.value}
+              onInput$={e => driver.value = e.target.value}
+              placeholder="https://site.com/drivers/urun.zip"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        </div>
+
+        {/* Galeri Görselleri */}
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Galeri Görselleri (URL)</label>
+          <div class="space-y-2">
+            {Array.from({ length: galleryCount.value }).map((_, idx) => (
+              <div key={idx} class="flex gap-2">
+                <input
+                  type="url"
+                  ref={el => galleryRefs.arr[idx] = el}
+                  defaultValue={gallery.list[idx] || ''}
+                  placeholder="https://site.com/img1.jpg"
+                  class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="button"
+                  onClick$={() => { if (galleryCount.value > 1) galleryCount.value--; galleryRefs.arr.splice(idx, 1); }}
+                  class="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700"
+                >Sil</button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick$={() => galleryCount.value++}
+              class="mt-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+            >+ Görsel Ekle</button>
+          </div>
         </div>
 
         {/* Butonlar */}

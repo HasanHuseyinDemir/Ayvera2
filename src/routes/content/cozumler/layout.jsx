@@ -5,44 +5,47 @@ import SidebarProductList from '~/components/SidebarProductList';
 export default component$(() => {
   const nav = useNavigate();
   const selectedCategory = useSignal(null);
+  const selectedBrand = useSignal(null); // YENİ: Marka filtresi
   const searchTerm = useSignal('');
   const showMobileFilters = useSignal(false);
+  const sidebarOpen = useSignal(true); // MASAÜSTÜ sidebar state
   const products = useSignal([]);
   const categories = useSignal([]);
+  const brands = useSignal([]); // YENİ: Markalar
 
   // Callback fonksiyonları
   const handleCategorySelect = $((categoryName) => {
     selectedCategory.value = categoryName;
   });
-
+  const handleBrandSelect = $((brandName) => {
+    selectedBrand.value = brandName;
+  });
   const handleSearchChange = $((searchValue) => {
     searchTerm.value = searchValue;
   });
 
-  // Ürünleri ve kategorileri yükle
+  // Ürünleri, kategorileri ve markaları yükle
   useTask$(async () => {
     try {
       if (typeof window === 'undefined') {
-        // SSR: Doğrudan dosyadan oku
-        const { readProducts } = await import('~/services/db.js');
+        const { readProducts, readBrands } = await import('~/services/db.js');
         const data = await readProducts();
         products.value = data;
-        console.log('Layout SSR: Ürünler yüklendi:', data.length);
+        brands.value = await readBrands();
+        console.log('Layout SSR: Ürünler ve markalar yüklendi:', data.length, brands.value.length);
       } else {
-        // Client: Önce API dene, olmuyorsa fallback yok - direkt error
         try {
-          console.log('🔍 Layout Debug: API yerine doğrudan DB\'den okuyorum...');
-          // API çalışmıyor, doğrudan service kullan
-          const { readProducts } = await import('~/services/db.js');
+          const { readProducts, readBrands } = await import('~/services/db.js');
           const data = await readProducts();
           products.value = data;
-          console.log('✅ Layout Client: DB\'den ürünler alındı:', data.length);
+          brands.value = await readBrands();
+          console.log('✅ Layout Client: DB\'den ürünler ve markalar alındı:', data.length, brands.value.length);
         } catch (error) {
           console.error('❌ Layout DB okuma hatası:', error);
           products.value = [];
+          brands.value = [];
         }
       }
-      
       // Kategorileri dinamik olarak oluştur (sadece isim array'i)
       const uniqueCategories = [...new Set(products.value.map(p => p.category).filter(Boolean))];
       categories.value = uniqueCategories;
@@ -51,96 +54,72 @@ export default component$(() => {
     }
   });
 
+  // Sidebar aç/kapa butonu sadece sidebar'ın üstünde, sabit ve sade
+  // Mobilde görünmez, sadece masaüstünde sidebar'ın üstünde
+
   return (
     <div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      {/* Mobil Filtre Toggle - Modern Tasarım */}
-      <div class="lg:hidden bg-white border-b border-gray-200 px-4 py-4">
-        <button
-          onClick$={() => (showMobileFilters.value = !showMobileFilters.value)}
-          class="w-full bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl px-4 py-3 flex items-center justify-between text-left transition-all duration-200 hover:from-blue-100 hover:to-indigo-100 hover:shadow-md"
-        >
-          <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
-              </svg>
-            </div>
-            <div>
-              <span class="font-semibold text-gray-900 block">Filtrele & Ara</span>
-              <span class="text-xs text-gray-500">{products.value.length} ürün mevcut</span>
-            </div>
-          </div>
-          <svg 
-            class={`w-5 h-5 text-blue-600 transform transition-transform duration-200 ${showMobileFilters.value ? 'rotate-180' : ''}`} 
-            fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-          </svg>
-        </button>
-        
-        {/* Mobil Filtreler - Smooth Animation */}
-        <div class={`transition-all duration-300 ease-in-out overflow-hidden ${
-          showMobileFilters.value ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'
-        }`}>
-          <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
-            <SidebarProductList
-              categories={categories.value}
-              selectedCategory={selectedCategory}
-              onSelectCategory$={$((cat) => {
-                selectedCategory.value = cat;
-                const params = new URLSearchParams();
-                if (cat) params.set('category', cat);
-                const newURL = params.toString() ? `/content/cozumler?${params.toString()}#content` : '/content/cozumler#content';
-                nav(newURL, { scroll: false });
-                showMobileFilters.value = false; // Mobilde seçim sonrası kapat
-              })}
-              searchTerm={searchTerm}
-              onSearchChange$={$((search) => {
-                searchTerm.value = search;
-                const params = new URLSearchParams();
-                if (search?.trim()) params.set('search', search.trim());
-                const newURL = params.toString() ? `/content/cozumler?${params.toString()}#content` : '/content/cozumler#content';
-                nav(newURL, { scroll: false });
-              })}
-              totalProducts={products.value.length}
-            />
-          </div>
-        </div>
-      </div>
-
       {/* Ana Container - Desktop */}
       <div class="flex">
-        {/* Sol Sidebar - Sabit ve Yapışkan */}
-        <div class="hidden lg:block w-80 bg-white border-r border-gray-200 min-h-screen">
-          <div class="sticky top-0 h-screen overflow-y-auto">
-            {/* Sidebar Content */}
-            <div class="p-6">
-              <SidebarProductList
-                categories={categories.value}
-                selectedCategory={selectedCategory}
-                onSelectCategory$={$((cat) => {
-                  selectedCategory.value = cat;
-                  const params = new URLSearchParams();
-                  if (cat) params.set('category', cat);
-                  const newURL = params.toString() ? `/content/cozumler?${params.toString()}#content` : '/content/cozumler#content';
-                  nav(newURL, { scroll: false });
-                })}
-                searchTerm={searchTerm}
-                onSearchChange$={$((search) => {
-                  searchTerm.value = search;
-                  const params = new URLSearchParams();
-                  if (search?.trim()) params.set('search', search.trim());
-                  const newURL = params.toString() ? `/content/cozumler?${params.toString()}#content` : '/content/cozumler#content';
-                  nav(newURL, { scroll: false });
-                })}
-                totalProducts={products.value.length}
-              />
-            </div>
+        {/* Sol Sidebar - Sabit ve Yapışkan, daraltıldığında ince bar olarak görünür */}
+        <div class={`hidden lg:flex flex-col bg-white border-r border-gray-200 min-h-screen transition-all duration-300 relative ${sidebarOpen.value ? 'w-80 opacity-100 translate-x-0' : 'w-8 opacity-80 -translate-x-0'}`}
+          style={{ willChange: 'width, opacity, transform' }}>
+          {/* Sidebar toggle butonu - sadece sidebar'ın üstünde, sade */}
+          <button
+            class="w-full h-8 flex items-center justify-center bg-blue-50 border-b border-blue-100 text-blue-700 hover:bg-blue-100 transition-colors duration-200"
+            onClick$={() => sidebarOpen.value = !sidebarOpen.value}
+            aria-label="Sidebar Aç/Kapat"
+          >
+            <span class="text-base font-bold">{sidebarOpen.value ? '‹ Kapat' : '>'}</span>
+          </button>
+          <div class={sidebarOpen.value ? "sticky top-0 h-screen overflow-y-auto" : "flex flex-col items-center justify-center h-screen"}>
+            {/* Sidebar Content veya dar modda sadece ikonlar */}
+            {sidebarOpen.value ? (
+              <div class="p-6">
+                <SidebarProductList
+                  categories={categories.value}
+                  brands={brands.value}
+                  selectedCategory={selectedCategory}
+                  selectedBrand={selectedBrand}
+                  onSelectCategory$={$((cat) => {
+                    selectedCategory.value = cat;
+                    const params = new URLSearchParams();
+                    if (cat) params.set('category', cat);
+                    if (selectedBrand.value) params.set('brand', selectedBrand.value);
+                    const newURL = params.toString() ? `/content/cozumler?${params.toString()}#content` : '/content/cozumler#content';
+                    nav(newURL, { scroll: false });
+                  })}
+                  onSelectBrand$={$((brand) => {
+                    selectedBrand.value = brand;
+                    const params = new URLSearchParams();
+                    if (selectedCategory.value) params.set('category', selectedCategory.value);
+                    if (brand) params.set('brand', brand);
+                    const newURL = params.toString() ? `/content/cozumler?${params.toString()}#content` : '/content/cozumler#content';
+                    nav(newURL, { scroll: false });
+                  })}
+                  searchTerm={searchTerm}
+                  onSearchChange$={$((search) => {
+                    searchTerm.value = search;
+                    const params = new URLSearchParams();
+                    if (selectedCategory.value) params.set('category', selectedCategory.value);
+                    if (selectedBrand.value) params.set('brand', selectedBrand.value);
+                    if (search?.trim()) params.set('search', search.trim());
+                    const newURL = params.toString() ? `/content/cozumler?${params.toString()}#content` : '/content/cozumler#content';
+                    nav(newURL, { scroll: false });
+                  })}
+                  totalProducts={products.value.length}
+                />
+              </div>
+            ) : (
+              <div class="flex flex-col items-center gap-4 w-full pt-8">
+                {/* Sadece kategori ikonları veya bir ipucu gösterebilirsin */}
+                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+              </div>
+            )}
           </div>
         </div>
-        
         {/* Ana İçerik - Sağ Taraf */}
-        <div class="flex-1 lg:pl-0">
+        <div class="flex-1 lg:pl-0 transition-all duration-300">
           <div id="content" class="max-w-6xl mx-auto">
             <Slot 
               selectedCategory={selectedCategory} 

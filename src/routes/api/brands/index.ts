@@ -2,7 +2,7 @@ import type { RequestEvent } from '@builder.io/qwik-city';
 import { readBrands, addBrand } from '~/services/db.js';
 
 export const onGet = async () => {
-  console.log('🗷 API: GET /api/brands çağrıldı');
+  console.log('🏷️ API: GET /api/brands çağrıldı');
   try {
     const brands = await readBrands();
     console.log('✅ Brands bulundu:', brands.length);
@@ -40,7 +40,7 @@ export const onPost = async ({ request }: RequestEvent) => {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error: any) {
-    console.error('❌ Brands POST hatası:', error);
+    console.error('❌ Brand POST hatası:', error);
     return new Response(JSON.stringify({ error: 'Marka eklenemedi' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }

@@ -5,8 +5,10 @@ export const MobileFilters = component$(({
   products, 
   localSearch, 
   localCategory, 
+  localBrand, // YENİ
   handleSearchChange, 
-  handleCategoryChange 
+  handleCategoryChange, 
+  handleBrandChange // YENİ
 }) => {
   const isSearching = useSignal(false);
   const isFilteringCategory = useSignal(false);
@@ -27,10 +29,25 @@ export const MobileFilters = component$(({
     }, 500);
   });
 
+  // Markaları dinamik olarak oluştur
+  const uniqueBrands = [...new Set(products.map(p => p.brand).filter(Boolean))];
+
   return (
     <div class="lg:hidden bg-white rounded-lg border p-3 mx-2 md:mx-4">
       <h3 class="font-semibold mb-3 text-sm md:text-base">Hızlı Kategoriler</h3>
-      
+      {/* Marka Filtresi */}
+      <div class="mb-3">
+        <select
+          class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-gray-50 text-sm"
+          value={localBrand.value || ''}
+          onChange$={e => handleBrandChange && handleBrandChange(e.target.value || null)}
+        >
+          <option value="">Tüm Markalar</option>
+          {uniqueBrands.map(brand => (
+            <option key={brand} value={brand}>{brand}</option>
+          ))}
+        </select>
+      </div>
       {/* Arama Kutusu */}
       <div class="mb-3 md:mb-4 flex items-center">
         <input

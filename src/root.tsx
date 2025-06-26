@@ -23,8 +23,9 @@ export default component$(() => {
           />
         )}
         <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet"></link>
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet"></link>
-        <link rel="icon" href="ico.svg" sizes="any" type="image/svg+xml"/>
+        <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
+        <link rel="icon" type="image/svg+xml" href="/ico.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <RouterHead />
       </head>
       <body lang="tr">

@@ -20,5 +20,5 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": ["src", "./*.d.ts", "./*.config.ts", "backup/(default)", "backup/upload-file.tts11", "backup/ProductList iyi.jsx", "backup/ProductList_side, "backup/ProductList_fixed.jsx", "backup/ProductList_modern.jsx"bar.jsx", "backup/ProductForm2.jsx", "backup/ProductForm.jsx"]
+  "include": ["src", "./*.d.ts", "./*.config.ts"]
 }

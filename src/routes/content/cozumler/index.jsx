@@ -13,6 +13,7 @@ export default component$((props) => {
   const urlCategory = loc.url.searchParams.get('category');
   const urlSearch = loc.url.searchParams.get('search');
   const urlPage = loc.url.searchParams.get('page');
+  const urlBrand = loc.url.searchParams.get('brand'); // YENİ
   
   // Layout'tan gelen props'ları kullan ama URL'yi öncelikli tut
   const selectedCategory = props.selectedCategory;
@@ -30,6 +31,7 @@ export default component$((props) => {
   // Local filter states - URL'den initialize et
   const localCategory = useSignal(urlCategory || null);
   const localSearch = useSignal(urlSearch || '');
+  const localBrand = useSignal(urlBrand || null); // YENİ
   
   // Filtrelenmiş ürünler için signal
   const filteredProducts = useSignal([]);
@@ -43,10 +45,12 @@ export default component$((props) => {
     const newCategory = loc.url.searchParams.get('category');
     const newSearch = loc.url.searchParams.get('search');
     const newPage = parseInt(loc.url.searchParams.get('page')) || 1;
+    const newBrand = loc.url.searchParams.get('brand'); // YENİ
     
     localCategory.value = newCategory;
     localSearch.value = newSearch || '';
     currentPage.value = newPage;
+    localBrand.value = newBrand; // YENİ
     
     // Parent component'i de güncelle
     if (onCategorySelect$ && newCategory !== selectedCategory?.value) {
@@ -97,6 +101,7 @@ export default component$((props) => {
   // Reaktif filtreleme ve pagination
   useTask$(({ track }) => {
     track(() => localCategory.value);
+    track(() => localBrand.value); // YENİ
     track(() => localSearch.value);
     track(() => products.value);
     track(() => currentPage.value);
@@ -122,7 +127,7 @@ export default component$((props) => {
     // Filtreleme
     const filtered = products.value.filter((p) => {
       const matchesCategory = !localCategory.value || p.category === localCategory.value;
-      
+      const matchesBrand = !localBrand.value || p.brand === localBrand.value; // YENİ
       const searchValue = localSearch.value?.toLowerCase()?.trim() || '';
       const matchesSearch = !searchValue || 
         p.title?.toLowerCase().includes(searchValue) ||
@@ -130,7 +135,7 @@ export default component$((props) => {
         p.brand?.toLowerCase().includes(searchValue) ||
         p.category?.toLowerCase().includes(searchValue);
       
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesBrand && matchesSearch; // YENİ
     });
     
     filteredProducts.value = filtered;
@@ -207,6 +212,30 @@ export default component$((props) => {
     // window.location.href yerine nav() kullanarak SPA geçişini sağla
     nav(newURL, {
       scroll: false // Scroll pozisyonunu korumak için
+    });
+  });
+
+  const handleBrandChange = $((brand) => {
+    localBrand.value = brand;
+    currentPage.value = 1;
+    setTimeout(() => {
+      const contentElement = document.getElementById('content');
+      if (contentElement) {
+        contentElement.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }, 100);
+    const params = new URLSearchParams();
+    if (localCategory.value) params.set('category', localCategory.value);
+    if (brand) params.set('brand', brand);
+    if (localSearch.value?.trim()) params.set('search', localSearch.value.trim());
+    const newURL = params.toString() 
+      ? `/content/cozumler?${params.toString()}`
+      : '/content/cozumler';
+    nav(newURL, {
+      scroll: false
     });
   });
 
@@ -326,8 +355,10 @@ export default component$((props) => {
             products={products.value}
             localSearch={localSearch}
             localCategory={localCategory}
+            localBrand={localBrand} // YENİ
             handleSearchChange={handleSearchChange}
             handleCategoryChange={handleCategoryChange}
+            handleBrandChange={handleBrandChange} // YENİ
           />
 
           <ResultInfo 

@@ -40,7 +40,7 @@ export const onPost = async ({ request }: RequestEvent) => {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error: any) {
-    console.error('❌ Categories POST hatası:', error);
+    console.error('❌ Category POST hatası:', error);
     return new Response(JSON.stringify({ error: 'Kategori eklenemedi' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }

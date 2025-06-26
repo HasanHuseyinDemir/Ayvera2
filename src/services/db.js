@@ -62,12 +62,7 @@ export async function readProducts() {
     
     // JSON parse ile güvenli okuma
     const parsed = JSON.parse(data);
-    // Eksik alanları tamamla
-    return (parsed.products || []).map(p => ({
-      ...p,
-      driver: typeof p.driver === 'string' ? p.driver : '',
-      pdf: typeof p.pdf === 'string' ? p.pdf : ''
-    }));
+    return parsed.products || [];
   } catch (error) {
     console.log('DB: Dosya okuma hatası, yeniden oluşturuluyor...', error.message);
     // Dosya yoksa veya bozuksa oluştur
@@ -206,9 +201,8 @@ export async function writeBrands(brands) {
     try {
       await fs.promises.unlink(tempPath);
     } catch {
-      // Temizleme hatası önemli değil
+      throw error;
     }
-    throw error;
   }
 }
 
@@ -275,7 +269,7 @@ export async function readCategories() {
     const parsed = JSON.parse(data);
     return parsed.categories || [];
   } catch (error) {
-    console.log('DB: Dosya bulunamadı, yeni dosya oluşturuluyor...',error.message);
+    console.log('DB: Dosya bulunamadı, yeni dosya oluşturuluyor...');
     await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
     return [];
   }
@@ -296,7 +290,6 @@ export async function writeCategories(categories) {
   try {
     const data = { products, brands, categories };
     const jsonString = JSON.stringify(data, null, 2);
-    
     await fs.promises.writeFile(tempPath, jsonString, 'utf-8');
     await fs.promises.rename(tempPath, dbPath);
     console.log('DB: Categories başarıyla yazıldı');
@@ -304,9 +297,7 @@ export async function writeCategories(categories) {
     console.error('DB: Categories yazma hatası:', error);
     try {
       await fs.promises.unlink(tempPath);
-    } catch {
-      // Temizleme hatası önemli değil
-    }
+    } catch {}
     throw error;
   }
 }

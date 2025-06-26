@@ -2,8 +2,11 @@ import { component$, $ } from '@builder.io/qwik';
 
 export const SidebarProductList = component$(({ 
   categories = [], 
+  brands = [],
   selectedCategory, 
+  selectedBrand,
   onSelectCategory$, 
+  onSelectBrand$,
   searchTerm,
   onSearchChange$,
   totalProducts = 0 
@@ -13,27 +16,32 @@ export const SidebarProductList = component$(({
     {/* Arama Bölümü */}
     <div>
       <label class="block text-sm font-semibold text-gray-900 mb-3">Ürün Ara</label>
-      <div class="relative">
-        <input
-          type="text"
-          placeholder="Ürün, marka veya kategori ara..."
-          class="w-full px-4 py-3 pl-10 pr-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-50 focus:bg-white transition-colors placeholder-gray-400"
-          value={searchTerm?.value || ''}
-          onInput$={(e) => searchTerm.value = e.target.value}
-          onKeyUp$={(e) => {
-            if (e.key === 'Enter' && onSearchChange$) {
-              onSearchChange$(e.target.value);
-            }
-          }}
-        />
-        <svg class="absolute left-3 top-3.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-        </svg>
+      <div class="flex gap-2">
+        <div class="relative flex-1">
+          <input
+            type="text"
+            placeholder="Ürün, marka veya kategori ara..."
+            class="w-full px-4 py-3 pl-10 pr-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-50 focus:bg-white transition-colors placeholder-gray-400"
+            value={searchTerm?.value || ''}
+            onInput$={(e) => searchTerm.value = e.target.value}
+            onKeyUp$={(e) => {
+              if (e.key === 'Enter' && onSearchChange$) {
+                onSearchChange$(e.target.value);
+              }
+            }}
+          />
+          <svg class="absolute left-3 top-3.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
         <button 
           onClick$={() => onSearchChange$ && onSearchChange$(searchTerm?.value || '')}
-          class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-xl text-sm font-medium transition-colors h-full flex items-center justify-center"
+          aria-label="Ara"
         >
-          Ara
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
         </button>
       </div>
       {searchTerm?.value && (
@@ -52,6 +60,21 @@ export const SidebarProductList = component$(({
           Aramayı Temizle
         </button>
       )}
+    </div>
+
+    {/* Marka Filtresi */}
+    <div>
+      <label class="block text-sm font-semibold text-gray-900 mb-3">Markalar</label>
+      <select
+        class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
+        value={selectedBrand?.value || ''}
+        onChange$={e => onSelectBrand$ && onSelectBrand$(e.target.value || null)}
+      >
+        <option value="">Tüm Markalar</option>
+        {brands.map(brand => (
+          <option key={brand.name} value={brand.name}>{brand.name}</option>
+        ))}
+      </select>
     </div>
 
     {/* Kategoriler */}
