@@ -1,7 +1,7 @@
 import { component$, useSignal, $, useStore, useTask$ } from '@builder.io/qwik';
 import { PanelLogin } from '~/components/panel/PanelLogin';
 import { PanelLayout } from '~/components/panel/PanelLayout';
-import { createPanelSession, clearPanelSession } from '~/services/auth.js';
+import { createPanelSession, clearPanelSession, checkPanelSession } from '~/services/auth.js';
 
 export const head = {
   title: 'Yönetim Paneli | Ayvera Güvenlik',
@@ -14,16 +14,22 @@ export const head = {
 export default component$(() => {
   const password = useSignal('');
   const error = useSignal('');
-  const state = useStore({ isAuth: true }); // TEST: Otomatik giriş
-  const config = useStore({ panelPassword: 'admin123', loaded: true });
-
-  // TEST: Sayfa yüklendiğinde otomatik giriş yap
-  useTask$(async () => {
-    state.isAuth = true;
+  const state = useStore({ isAuth: false });
+  // Sayfa yenilendiğinde cookie bazlı oturumu kontrol et
+  useTask$(() => {
     if (typeof window !== 'undefined') {
-      createPanelSession(); // Session oluştur
+      state.isAuth = checkPanelSession();
     }
   });
+  const config = useStore({ panelPassword: 'rdadmin2015', loaded: true });
+
+  // TEST: Sayfa yüklendiğinde otomatik giriş yap
+  // useTask$(async () => {
+  //   state.isAuth = true;
+  //   if (typeof window !== 'undefined') {
+  //     createPanelSession(); // Session oluştur
+  //   }
+  // });
 
   const handleLogin = $(async (inputPassword) => {
     if (!inputPassword || inputPassword.trim() === '') {

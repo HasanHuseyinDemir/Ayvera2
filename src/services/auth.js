@@ -22,7 +22,7 @@ export function checkPanelSession() {
 export function clearPanelSession() {
   if (typeof window === 'undefined') return;
   
-  document.cookie = 'panel-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/panel;';
+  document.cookie = 'panel-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   console.log('🔒 Panel session temizlendi');
 }
 
@@ -36,7 +36,7 @@ export function createPanelSession() {
   const expires = new Date();
   expires.setHours(expires.getHours() + 24); // 24 saat geçerli
   
-  document.cookie = `panel-session=${sessionId}; expires=${expires.toUTCString()}; path=/panel; secure; samesite=strict`;
+  document.cookie = `panel-session=${sessionId}; expires=${expires.toUTCString()}; path=/;`;
   console.log('✅ Panel session oluşturuldu');
   
   return sessionId;

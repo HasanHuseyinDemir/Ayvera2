@@ -16,7 +16,7 @@ export const PanelLogin = component$(({ password, error, onLogin$ }) => {
   });
 
   return (
-    <form onSubmit$={handleSubmit} class="space-y-6">
+    <form preventdefault:submit onSubmit$={handleSubmit} class="space-y-6">
       <div>
         <label for="password" class="block text-sm font-medium text-gray-300 mb-2">
           Panel Şifresi

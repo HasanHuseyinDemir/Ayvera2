@@ -20,13 +20,11 @@ export const BrandList = component$(() => {
       loading.value = true;
       error.value = '';
       console.log('🔍 Brands yükleniyor...');
-      
-      if (typeof window !== 'undefined') {
-        const { readBrands } = await import('~/services/db.js');
-        const data = await readBrands();
-        console.log('✅ Brands yüklendi:', data?.length || 0, 'adet');
-        brands.value = data || [];
-      }
+      const response = await fetch('http://localhost:3001/api/brands');
+      if (!response.ok) throw new Error('API hatası');
+      const data = await response.json();
+      console.log('✅ Brands yüklendi:', data?.length || 0, 'adet');
+      brands.value = data || [];
     } catch (err) {
       console.error('❌ Brands yükleme hatası:', err);
       brands.value = [];

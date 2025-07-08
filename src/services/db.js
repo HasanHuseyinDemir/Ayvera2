@@ -122,7 +122,9 @@ export async function addProduct(product) {
 export async function deleteProduct(id) {
   const products = await readProducts();
   const filtered = products.filter(p => String(p.id) !== String(id));
-  await writeProducts(filtered);
+  // brands'i de oku ve koru
+  const brands = await readBrands();
+  await writeProducts(filtered, brands);
   return filtered;
 }
 
@@ -131,7 +133,9 @@ export async function updateProduct(id, updates) {
   const idx = products.findIndex(p => String(p.id) === String(id));
   if (idx === -1) return null;
   products[idx] = { ...products[idx], ...updates };
-  await writeProducts(products);
+  // brands'i de oku ve koru
+  const brands = await readBrands();
+  await writeProducts(products, brands);
   return products[idx];
 }
 
@@ -269,7 +273,7 @@ export async function readCategories() {
     const parsed = JSON.parse(data);
     return parsed.categories || [];
   } catch (error) {
-    console.log('DB: Dosya bulunamadı, yeni dosya oluşturuluyor...');
+    console.log('DB: Dosya bulunamadı, yeni dosya oluşturuluyor...',error.message);
     await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
     return [];
   }
@@ -297,10 +301,11 @@ export async function writeCategories(categories) {
     console.error('DB: Categories yazma hatası:', error);
     try {
       await fs.promises.unlink(tempPath);
-    } catch {}
-    throw error;
-  }
-}
+    } 
+    catch (unlinkError) {
+      console.error('DB: Geçici dosya silme hatası:', unlinkError);
+    }
+}}
 
 export async function addCategory(category) {
   const categories = await readCategories();

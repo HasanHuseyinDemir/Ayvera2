@@ -71,21 +71,14 @@ export default component$((props) => {
     }
   });
 
-  // Fallback: Layout'tan gelmezse DB'den yükle
+  // Fallback: Layout'tan gelmezse API'den yükle
   useTask$(async () => {
-    // Layout'tan gelmezse veya products boşsa yükle
     if ((!layoutProducts?.value || layoutProducts.value.length === 0) && products.value.length === 0) {
       try {
-        if (typeof window === 'undefined') {
-          const { readProducts } = await import('~/services/db.js');
-          const data = await readProducts();
-          products.value = data;
-        } else {
-          // API çalışmıyor, doğrudan service kullan
-          const { readProducts } = await import('~/services/db.js');
-          const data = await readProducts();
-          products.value = data;
-        }
+        const res = await fetch('http://localhost:3001/api/products');
+        if (!res.ok) throw new Error('API hatası');
+        const data = await res.json();
+        products.value = Array.isArray(data.products) ? data.products : data;
       } catch (err) {
         console.error('❌ Index: Fallback ürün yükleme hatası:', err);
         error.value = err.message;
@@ -93,8 +86,24 @@ export default component$((props) => {
         loading.value = false;
       }
     } else if (products.value.length > 0) {
-      // Zaten products varsa loading'i kapat
       loading.value = false;
+    }
+  });
+
+  // SPA'da geri gelindiğinde ürünler sıfırlanıyorsa tekrar fetch et
+  useTask$(async ({ track }) => {
+    track(() => loc.url.href);
+    if (!products.value || products.value.length === 0) {
+      try {
+        const res = await fetch('http://localhost:3001/api/products');
+        if (!res.ok) throw new Error('API hatası');
+        const data = await res.json();
+        products.value = Array.isArray(data.products) ? data.products : data;
+      } catch (err) {
+        error.value = err.message;
+      } finally {
+        loading.value = false;
+      }
     }
   });
 

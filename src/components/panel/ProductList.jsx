@@ -3,7 +3,7 @@ import { SimpleProductForm } from './SimpleProductForm';
 
 export const ProductList = component$(() => {
   const products = useSignal([]);
-  const categories = useSignal([]);
+  const categories = useSignal([]); // Kategoriler API'den gelmiyor, gerekirse elle doldur
   const brands = useSignal([]);
   const loading = useSignal(true);
   const error = useSignal('');
@@ -20,12 +20,11 @@ export const ProductList = component$(() => {
   const loadProducts = $(async () => {
     try {
       loading.value = true;
-      if (typeof window !== 'undefined') {
-        const { readProducts } = await import('~/services/db.js');
-        const data = await readProducts();
-        products.value = data || [];
-        console.log('✅ Products yüklendi:', products.value.length, 'adet');
-      }
+      const response = await fetch('http://localhost:3001/api/products');
+      if (!response.ok) throw new Error('API hatası');
+      const data = await response.json();
+      products.value = data || [];
+      console.log('✅ Products yüklendi:', products.value.length, 'adet');
     } catch (err) {
       console.error('❌ Products yükleme hatası:', err);
       error.value = 'Ürünler yüklenirken bir hata oluştu';
@@ -34,34 +33,26 @@ export const ProductList = component$(() => {
     }
   });
 
-  const loadCategories = $(async () => {
-    try {
-      if (typeof window !== 'undefined') {
-        const { readCategories } = await import('~/services/db.js');
-        const data = await readCategories();
-        categories.value = data || [];
-        console.log('✅ Categories yüklendi:', categories.value.length, 'adet');
-      }
-    } catch (err) {
-      console.error('❌ Kategoriler yüklenemedi:', err);
-    }
+  // Kategoriler elle veya products içinden unique olarak türetilebilir
+  const loadCategories = $(() => {
+    categories.value = [...new Set(products.value.map(p => p.category).filter(Boolean))];
   });
 
   const loadBrands = $(async () => {
     try {
-      if (typeof window !== 'undefined') {
-        const { readBrands } = await import('~/services/db.js');
-        const data = await readBrands();
-        brands.value = data || [];
-        console.log('✅ Brands yüklendi:', brands.value.length, 'adet');
-      }
+      const response = await fetch('http://localhost:3001/api/brands');
+      if (!response.ok) throw new Error('API hatası');
+      const data = await response.json();
+      brands.value = data || [];
+      console.log('✅ Brands yüklendi:', brands.value.length, 'adet');
     } catch (err) {
       console.error('❌ Markalar yüklenemedi:', err);
     }
   });
 
   const loadData = $(async () => {
-    await Promise.all([loadProducts(), loadCategories(), loadBrands()]);
+    await Promise.all([loadProducts(), loadBrands()]);
+    loadCategories();
   });
 
   // Ürün filtreleme
@@ -103,7 +94,7 @@ export const ProductList = component$(() => {
 
   const handleDelete = $(async (productId) => {
     try {
-      const response = await fetch(`/api/products/${productId}`, {
+      const response = await fetch(`http://localhost:3001/api/products/${productId}`, {
         method: 'DELETE',
       });
       
@@ -171,8 +162,6 @@ export const ProductList = component$(() => {
 
   const handleEditSuccess = $(async () => {
     await loadProducts();
-    await loadCategories();
-    await loadBrands();
     handleEditModalClose();
   });
 

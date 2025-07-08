@@ -9,12 +9,13 @@
       "brand": "Rubezh",
       "features": [
         "sda",
-        "asd"
+        "asd",
+        "a"
       ],
       "driver": "x",
-      "pdf": "x",
+      "pdf": "xa",
       "gallery": [
-        "x"
+        "x1a"
       ]
     },
     {
@@ -52,7 +53,7 @@
     },
     {
       "id": 9,
-      "title": "Profesyonel Alarm Sistemi",
+      "title": "Profesyonel Alarm Sistemi 2",
       "desc": "Büyük işletmeler için gelişmiş alarm sistemi. Çoklu sensör desteği ve merkezi izleme.",
       "img": "/stock/evguvenlik.png",
       "category": "Alarm Sistemleri",
@@ -65,7 +66,8 @@
         "Profesyonel kurulum"
       ],
       "driver": "",
-      "pdf": ""
+      "pdf": "",
+      "gallery": []
     },
     {
       "id": 10,
@@ -336,7 +338,7 @@
     {
       "name": "Av Tech",
       "logo": "/brands/avtech.png",
-      "description": "Kamera Güvenlik",
+      "description": "Kamera Güvenlikler",
       "id": 12
     }
   ]

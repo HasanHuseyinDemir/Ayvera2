@@ -49,11 +49,9 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
     featureRefs.arr = [];
   });
 
+  // Sadece buton click ile çalışır, event parametresi yok, submit davranışı asla olmaz!
   const handleSubmit = $(async () => {
-    if (!title.value.trim() || !desc.value.trim()) {
-      error.value = 'Başlık ve açıklama gereklidir';
-      return;
-    }
+    console.log('handleSubmit çalıştı (submit olayı yok, sadece buton click)');
     try {
       loading.value = true;
       error.value = '';
@@ -73,8 +71,8 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
         gallery: galleryImages
       };
       const url = product?.id 
-        ? `/api/products/${product.id}`
-        : '/api/products';
+        ? `http://localhost:3001/api/products/${product.id}`
+        : 'http://localhost:3001/api/products';
       const method = product?.id ? 'PUT' : 'POST';
       const response = await fetch(url, {
         method,
@@ -84,8 +82,7 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
         body: JSON.stringify(productData),
       });
       if (response.ok) {
-        const result = await response.json();
-        await onSuccess$();
+        await onSuccess$(); // Modalı kapat, listeyi güncelle
       } else {
         const errorData = await response.json();
         error.value = errorData.message || 'İşlem sırasında bir hata oluştu';
@@ -117,11 +114,8 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
         </div>
       )}
 
-      <form
-        key={product?.id + '_' + tempCount.value}
-        onSubmit$={handleSubmit}
-        class="space-y-4"
-      >
+      {/* Form kaldırıldı, tüm inputlar ve butonlar div içinde */}
+      <div class="space-y-4">
         {/* Başlık */}
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">
@@ -247,7 +241,7 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">PDF Linki</label>
             <input
-              type="url"
+              type="text"
               value={pdf.value}
               onInput$={e => pdf.value = e.target.value}
               placeholder="https://site.com/pdf/urun.pdf"
@@ -257,7 +251,7 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Driver Linki</label>
             <input
-              type="url"
+              type="text"
               value={driver.value}
               onInput$={e => driver.value = e.target.value}
               placeholder="https://site.com/drivers/urun.zip"
@@ -273,7 +267,7 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
             {Array.from({ length: galleryCount.value }).map((_, idx) => (
               <div key={idx} class="flex gap-2">
                 <input
-                  type="url"
+                  type="text"
                   ref={el => galleryRefs.arr[idx] = el}
                   defaultValue={gallery.list[idx] || ''}
                   placeholder="https://site.com/img1.jpg"
@@ -298,8 +292,8 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
         <div class="flex gap-3 pt-4">
           <button
             type="button"
-            onClick$={handleSubmit}
             disabled={loading.value}
+            onClick$={handleSubmit}
             class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading.value ? 'Kaydediliyor...' : (product?.id ? 'Güncelle' : 'Ekle')}
@@ -314,7 +308,7 @@ export const SimpleProductForm = component$(({ product = null, categories = [], 
             İptal
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 });
