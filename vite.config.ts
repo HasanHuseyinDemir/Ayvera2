@@ -30,15 +30,12 @@ export default defineConfig(({ command, mode }): UserConfig => {
     },
     build: {
       rollupOptions: {
-        external: ["node:fs", "node:path", "node:crypto"],
+        external: [],
       },
     },
     ssr: {
       noExternal: Object.keys(devDependencies),
       external: [
-        "node:fs",
-        "node:path",
-        "node:crypto",
         ...Object.keys(dependencies),
       ],
     },
