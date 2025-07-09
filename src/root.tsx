@@ -12,6 +12,11 @@ export default component$(() => {
    * Don't remove the `<head>` and `<body>` elements.
    */
 
+  // Hoş geldin mesajı
+  if (typeof window !== 'undefined') {
+    console.log('🛡️ Ayvera Güvenlik Hizmetlerine Hoş Geldiniz!');
+  }
+
   return (
     <QwikCityProvider>
       <head>

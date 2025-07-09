@@ -3,14 +3,12 @@ import { component$, $ } from '@builder.io/qwik';
 export const PanelLogin = component$(({ password, error, onLogin$ }) => {
   const handleSubmit = $(async (e) => {
     e.preventDefault();
-    console.log('📝 Form submit:', password.value);
     await onLogin$(password.value);
   });
 
   const handleKeyDown = $(async (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      console.log('⌨️ Enter tuşu:', password.value);
       await onLogin$(password.value);
     }
   });

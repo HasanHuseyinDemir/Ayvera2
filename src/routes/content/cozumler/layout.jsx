@@ -32,16 +32,13 @@ export default component$(() => {
         const data = await readProducts();
         products.value = data;
         brands.value = await readBrands();
-        console.log('Layout SSR: Ürünler ve markalar yüklendi:', data.length, brands.value.length);
       } else {
         try {
           const { readProducts, readBrands } = await import('~/services/db.js');
           const data = await readProducts();
           products.value = data;
           brands.value = await readBrands();
-          console.log('✅ Layout Client: DB\'den ürünler ve markalar alındı:', data.length, brands.value.length);
         } catch (error) {
-          console.error('❌ Layout DB okuma hatası:', error);
           products.value = [];
           brands.value = [];
         }
@@ -50,7 +47,6 @@ export default component$(() => {
       const uniqueCategories = [...new Set(products.value.map(p => p.category).filter(Boolean))];
       categories.value = uniqueCategories;
     } catch (error) {
-      console.error('Layout: Ürün yükleme hatası:', error);
     }
   });
 

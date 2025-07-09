@@ -163,7 +163,6 @@ export default component$((props) => {
 
   // Filtre değiştirme fonksiyonları
   const handleCategoryChange = $((category) => {
-    console.log('Kategori değişiyor:', category);
     localCategory.value = category;
     currentPage.value = 1;
     
@@ -194,7 +193,6 @@ export default component$((props) => {
   });
 
   const handleSearchChange = $((search) => {
-    console.log('Arama değişiyor:', search);
     localSearch.value = search;
     currentPage.value = 1;
     
@@ -388,7 +386,6 @@ export default component$((props) => {
             products={paginatedProducts.value}
             loading={loading.value}
             onProductClick={$((productId) => {
-              console.log('Ürün tıklandı, ID:', productId);
               // Önce hash olmadan navigate et, sonra scroll işlemi ürün detay sayfasında yapılacak
               nav(`/content/cozumler/product/${productId}/#content`, { scroll: false});
             })}
