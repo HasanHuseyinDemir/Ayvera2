@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
-    "lowdb": "^3.0.0",
     "nodemailer": "^7.0.3",
     "tailwindcss": "^4.1.7"
   }
