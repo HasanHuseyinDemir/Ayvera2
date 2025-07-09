@@ -1,1 +1,0 @@
-import{C as i}from"./q-BrZnMBvo.js";import{i as a,j as l,B as n}from"./q-dHwleXQA.js";import"./q-BDb8A3xp.js";import"./q-BEZsbgCH.js";const m=()=>a(i,{title:"Uygulama Alanları",children:n("p",null,{class:"mb-4"},"Güvenlik çözümlerimizin uygulandığı sektörler ve alanlar hakkında bilgi edinin.",3,null),[l]:{title:l}},3,"kn_0");export{m as s_ROS3Xfbsukw};

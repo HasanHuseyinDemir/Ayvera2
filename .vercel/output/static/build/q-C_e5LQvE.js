@@ -1,1 +1,0 @@
-import{C as l}from"./q-BrZnMBvo.js";import{i as r,j as i,B as t}from"./q-dHwleXQA.js";import"./q-BDb8A3xp.js";import"./q-BEZsbgCH.js";const n=()=>r(l,{title:"Hizmetlerimiz",children:t("p",null,{class:"mb-4"},"Ayvera olarak sunduğumuz güvenlik çözümleriyle ilgili detaylı bilgiye buradan ulaşabilirsiniz.",3,null),[i]:{title:i}},3,"Ym_0");export{n as s_vnZGFShO9FY};

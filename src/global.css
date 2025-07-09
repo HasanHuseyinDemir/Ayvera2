@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@import "tailwindcss";
+
 :root{
     --link:rgb(20, 211, 211);
 }

@@ -1,3 +1,6 @@
+// API Base URL
+const API_BASE = 'http://localhost:3001';
+
 const defaultData = { 
   products: [], 
   brands: [], 
@@ -10,433 +13,233 @@ const defaultData = {
   }
 };
 
-async function getDbPath() {
-  const path = await import('node:path');
-  const fs = await import('node:fs');
-  const dbDir = path.join(process.cwd(), 'db');
-  const dbPath = path.join(dbDir, 'products.json');
-  
-  // db klasörünü oluştur
+// Helper function for API calls
+async function apiCall(endpoint, options = {}) {
   try {
-    await fs.promises.mkdir(dbDir, { recursive: true });
-  } catch {
-    // Klasör zaten varsa hata yok
+    const response = await fetch(`${API_BASE}${endpoint}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+      },
+      ...options
+    });
+    
+    if (!response.ok) {
+      throw new Error(`API call failed: ${response.status} ${response.statusText}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error(`API call error for ${endpoint}:`, error);
+    throw error;
   }
-  
-  return dbPath;
 }
 
+// ===== PRODUCTS =====
 export async function readProducts() {
-  if (typeof window !== 'undefined') {
-    // Client-side: JSON dosyasını fetch ile oku
-    try {
-      console.log('🔍 Client-side: JSON dosyasını okuyorum...');
-      const response = await fetch('/db/products.json');
-      if (response.ok) {
-        const data = await response.json();
-        console.log('✅ Client-side: JSON\'dan products alındı:', data.products?.length || 0);
-        return data.products || [];
-      } else {
-        console.error('❌ JSON dosyası okunamadı:', response.status);
-        return defaultData.products;
-      }
-    } catch (error) {
-      console.error('❌ Client-side JSON okuma hatası:', error);
-      return defaultData.products;
-    }
-  }
-  
-  // Server-side: Node.js ile dosya oku
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
   try {
-    await fs.promises.access(dbPath);
-    const data = await fs.promises.readFile(dbPath, 'utf-8');
-    
-    // Boş dosya kontrolü
-    if (!data.trim()) {
-      console.log('DB: Dosya boş, yeniden oluşturuluyor...');
-      await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
-      return [];
-    }
-    
-    // JSON parse ile güvenli okuma
-    const parsed = JSON.parse(data);
-    return parsed.products || [];
+    return await apiCall('/api/products');
   } catch (error) {
-    console.log('DB: Dosya okuma hatası, yeniden oluşturuluyor...', error.message);
-    // Dosya yoksa veya bozuksa oluştur
-    await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
-    return [];
+    console.error('Products okuma hatası:', error);
+    return defaultData.products;
   }
 }
 
 export async function writeProducts(products, brands = null) {
-  if (typeof window !== 'undefined') return;
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
-  const tempPath = dbPath + '.tmp';
-  
-  // Eğer brands verilmemişse mevcut brands'i oku
-  if (brands === null) {
-    try {
-      const currentData = await fs.promises.readFile(dbPath, 'utf-8');
-      const parsed = JSON.parse(currentData);
-      brands = parsed.brands || [];
-    } catch {
-      brands = [];
-    }
-  }
-  
   try {
-    const data = { products, brands };
-    const jsonString = JSON.stringify(data, null, 2);
-    
-    // Önce geçici dosyaya yaz
-    await fs.promises.writeFile(tempPath, jsonString, 'utf-8');
-    
-    // Sonra atomik olarak taşı
-    await fs.promises.rename(tempPath, dbPath);
-    console.log('DB: Dosya başarıyla yazıldı');
+    return await apiCall('/api/products/bulk', {
+      method: 'POST',
+      body: JSON.stringify({ products, brands })
+    });
   } catch (error) {
-    console.error('DB: Yazma hatası:', error);
-    // Geçici dosyayı temizle
-    try {
-      await fs.promises.unlink(tempPath);
-    } catch {
-      // Temizleme hatası önemli değil
-    }
+    console.error('Products yazma hatası:', error);
     throw error;
   }
 }
 
 export async function addProduct(product) {
-  const products = await readProducts();
-  const maxId = products.length > 0 ? Math.max(...products.map(p => Number(p.id) || 0)) : 0;
-  product.id = maxId + 1;
-  products.push(product);
-  await writeProducts(products);
-  return product;
+  try {
+    return await apiCall('/api/products', {
+      method: 'POST',
+      body: JSON.stringify(product)
+    });
+  } catch (error) {
+    console.error('Ürün ekleme hatası:', error);
+    throw new Error('Ürün eklenemedi');
+  }
 }
 
 export async function deleteProduct(id) {
-  const products = await readProducts();
-  const filtered = products.filter(p => String(p.id) !== String(id));
-  // brands'i de oku ve koru
-  const brands = await readBrands();
-  await writeProducts(filtered, brands);
-  return filtered;
+  try {
+    return await apiCall(`/api/products/${id}`, {
+      method: 'DELETE'
+    });
+  } catch (error) {
+    console.error('Ürün silme hatası:', error);
+    throw new Error('Ürün silinemedi');
+  }
 }
 
 export async function updateProduct(id, updates) {
-  const products = await readProducts();
-  const idx = products.findIndex(p => String(p.id) === String(id));
-  if (idx === -1) return null;
-  products[idx] = { ...products[idx], ...updates };
-  // brands'i de oku ve koru
-  const brands = await readBrands();
-  await writeProducts(products, brands);
-  return products[idx];
+  try {
+    return await apiCall(`/api/products/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates)
+    });
+  } catch (error) {
+    console.error('Ürün güncelleme hatası:', error);
+    throw new Error('Ürün güncellenemedi');
+  }
 }
 
-// Brands CRUD Operations
+// ===== BRANDS =====
 export async function readBrands() {
-  if (typeof window !== 'undefined') {
-    // Client-side: JSON dosyasını fetch ile oku
-    try {
-      console.log('🔍 Client-side: Brands için JSON dosyasını okuyorum...');
-      const response = await fetch('/db/products.json');
-      if (response.ok) {
-        const data = await response.json();
-        console.log('✅ Client-side: JSON\'dan brands alındı:', data.brands?.length || 0);
-        return data.brands || [];
-      } else {
-        console.error('❌ Brands JSON dosyası okunamadı:', response.status);
-        return defaultData.brands;
-      }
-    } catch (error) {
-      console.error('❌ Client-side Brands JSON okuma hatası:', error);
-      return defaultData.brands;
-    }
-  }
-  
-  // Server-side: Node.js ile dosya oku
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
   try {
-    await fs.promises.access(dbPath);
-    const data = await fs.promises.readFile(dbPath, 'utf-8');
-    
-    if (!data.trim()) {
-      console.log('DB: Dosya boş, yeniden oluşturuluyor...');
-      await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
-      return [];
-    }
-    
-    const parsed = JSON.parse(data);
-    return parsed.brands || [];
+    return await apiCall('/api/brands');
   } catch (error) {
-    console.log('DB: Brands okuma hatası, yeniden oluşturuluyor...', error.message);
-    await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
-    return [];
+    console.error('Brands okuma hatası:', error);
+    return defaultData.brands;
   }
 }
 
 export async function writeBrands(brands) {
-  if (typeof window !== 'undefined') return;
-  
-  // Mevcut ürünleri oku
-  const products = await readProducts();
-  
-  // Hem products hem brands'i birlikte yaz
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
-  const tempPath = dbPath + '.tmp';
-  
   try {
-    const data = { products, brands };
-    const jsonString = JSON.stringify(data, null, 2);
-    
-    await fs.promises.writeFile(tempPath, jsonString, 'utf-8');
-    await fs.promises.rename(tempPath, dbPath);
-    console.log('DB: Brands başarıyla yazıldı');
+    return await apiCall('/api/brands/bulk', {
+      method: 'POST',
+      body: JSON.stringify({ brands })
+    });
   } catch (error) {
-    console.error('DB: Brands yazma hatası:', error);
-    try {
-      await fs.promises.unlink(tempPath);
-    } catch {
-      throw error;
-    }
+    console.error('Brands yazma hatası:', error);
+    throw error;
   }
 }
 
 export async function addBrand(brand) {
-  const brands = await readBrands();
-  const maxId = brands.length > 0 ? Math.max(...brands.map(b => Number(b.id) || 0)) : 0;
-  brand.id = maxId + 1;
-  brands.push(brand);
-  await writeBrands(brands);
-  return brand;
+  try {
+    return await apiCall('/api/brands', {
+      method: 'POST',
+      body: JSON.stringify(brand)
+    });
+  } catch (error) {
+    console.error('Marka ekleme hatası:', error);
+    throw new Error('Marka eklenemedi');
+  }
 }
 
 export async function deleteBrand(id) {
-  const brands = await readBrands();
-  const filtered = brands.filter(b => String(b.id) !== String(id));
-  await writeBrands(filtered);
-  return filtered;
+  try {
+    return await apiCall(`/api/brands/${id}`, {
+      method: 'DELETE'
+    });
+  } catch (error) {
+    console.error('Marka silme hatası:', error);
+    throw new Error('Marka silinemedi');
+  }
 }
 
 export async function updateBrand(id, updates) {
-  const brands = await readBrands();
-  const idx = brands.findIndex(b => String(b.id) === String(id));
-  if (idx === -1) return null;
-  brands[idx] = { ...brands[idx], ...updates };
-  await writeBrands(brands);
-  return brands[idx];
+  try {
+    return await apiCall(`/api/brands/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates)
+    });
+  } catch (error) {
+    console.error('Marka güncelleme hatası:', error);
+    throw new Error('Marka güncellenemedi');
+  }
 }
 
-// === KATEGORİ FONKSİYONLARI ===
-
+// ===== CATEGORIES =====
 export async function readCategories() {
-  if (typeof window !== 'undefined') {
-    // Client-side: JSON dosyasını fetch ile oku
-    try {
-      console.log('🔍 Client-side: Kategorileri okuyorum...');
-      const response = await fetch('/db/products.json');
-      if (response.ok) {
-        const data = await response.json();
-        console.log('✅ Client-side: JSON\'dan categories alındı:', data.categories?.length || 0);
-        return data.categories || [];
-      } else {
-        console.error('❌ JSON dosyası okunamadı:', response.status);
-        return defaultData.categories;
-      }
-    } catch (error) {
-      console.error('❌ Client-side kategori okuma hatası:', error);
-      return defaultData.categories;
-    }
-  }
-  
-  // Server-side: Node.js ile dosya oku
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
   try {
-    await fs.promises.access(dbPath);
-    const data = await fs.promises.readFile(dbPath, 'utf-8');
-    
-    if (!data.trim()) {
-      console.log('DB: Dosya boş, yeniden oluşturuluyor...');
-      await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
-      return [];
-    }
-    
-    const parsed = JSON.parse(data);
-    return parsed.categories || [];
+    return await apiCall('/api/categories');
   } catch (error) {
-    console.log('DB: Dosya bulunamadı, yeni dosya oluşturuluyor...',error.message);
-    await fs.promises.writeFile(dbPath, JSON.stringify(defaultData, null, 2));
-    return [];
+    console.error('Categories okuma hatası:', error);
+    return defaultData.categories;
   }
 }
 
 export async function writeCategories(categories) {
-  if (typeof window !== 'undefined') return;
-  
-  // Mevcut products ve brands'i oku
-  const products = await readProducts();
-  const brands = await readBrands();
-  
-  // Hem products, brands hem de categories'i birlikte yaz
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
-  const tempPath = dbPath + '.tmp';
-  
   try {
-    const data = { products, brands, categories };
-    const jsonString = JSON.stringify(data, null, 2);
-    await fs.promises.writeFile(tempPath, jsonString, 'utf-8');
-    await fs.promises.rename(tempPath, dbPath);
-    console.log('DB: Categories başarıyla yazıldı');
+    return await apiCall('/api/categories/bulk', {
+      method: 'POST',
+      body: JSON.stringify({ categories })
+    });
   } catch (error) {
-    console.error('DB: Categories yazma hatası:', error);
-    try {
-      await fs.promises.unlink(tempPath);
-    } 
-    catch (unlinkError) {
-      console.error('DB: Geçici dosya silme hatası:', unlinkError);
-    }
-}}
+    console.error('Categories yazma hatası:', error);
+    throw error;
+  }
+}
 
 export async function addCategory(category) {
-  const categories = await readCategories();
-  const maxId = categories.length > 0 ? Math.max(...categories.map(c => Number(c.id) || 0)) : 0;
-  category.id = maxId + 1;
-  categories.push(category);
-  await writeCategories(categories);
-  return category;
+  try {
+    return await apiCall('/api/categories', {
+      method: 'POST',
+      body: JSON.stringify(category)
+    });
+  } catch (error) {
+    console.error('Kategori ekleme hatası:', error);
+    throw new Error('Kategori eklenemedi');
+  }
 }
 
 export async function deleteCategory(id) {
-  const categories = await readCategories();
-  const filtered = categories.filter(c => String(c.id) !== String(id));
-  await writeCategories(filtered);
-  return filtered;
+  try {
+    return await apiCall(`/api/categories/${id}`, {
+      method: 'DELETE'
+    });
+  } catch (error) {
+    console.error('Kategori silme hatası:', error);
+    throw new Error('Kategori silinemedi');
+  }
 }
 
 export async function updateCategory(id, updates) {
-  const categories = await readCategories();
-  const idx = categories.findIndex(c => String(c.id) === String(id));
-  if (idx === -1) return null;
-  categories[idx] = { ...categories[idx], ...updates };
-  await writeCategories(categories);
-  return categories[idx];
+  try {
+    return await apiCall(`/api/categories/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates)
+    });
+  } catch (error) {
+    console.error('Kategori güncelleme hatası:', error);
+    throw new Error('Kategori güncellenemedi');
+  }
 }
 
-// Config Operations
+// ===== CONFIG =====
 export async function readConfig() {
-  if (typeof window !== 'undefined') {
-    // Client-side: JSON dosyasını fetch ile oku
-    try {
-      console.log('🔍 Client-side: Config verilerini okuyorum...');
-      const response = await fetch('/db/products.json');
-      if (response.ok) {
-        const data = await response.json();
-        console.log('✅ Client-side: Config alındı');
-        return data.config || { panelPassword: 'admin123' };
-      } else {
-        console.error('❌ Config JSON dosyası okunamadı:', response.status);
-        return { panelPassword: 'admin123' };
-      }
-    } catch (error) {
-      console.error('❌ Client-side Config okuma hatası:', error);
-      return { panelPassword: 'admin123' };
-    }
-  }
-  
-  // Server-side: Node.js ile dosya oku
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
   try {
-    await fs.promises.access(dbPath);
-    const data = await fs.promises.readFile(dbPath, 'utf-8');
-    
-    if (!data.trim()) {
-      console.log('DB: Config - Dosya boş, varsayılan config döndürülüyor...');
-      return { panelPassword: 'admin123' };
-    }
-    
-    const parsed = JSON.parse(data);
-    return parsed.config || { panelPassword: 'admin123' };
+    return await apiCall('/api/config');
   } catch (error) {
-    console.log('DB: Config okuma hatası, varsayılan config döndürülüyor...', error.message);
-    return { panelPassword: 'admin123' };
+    console.error('Config okuma hatası:', error);
+    return defaultData.config;
   }
 }
 
-// Contact messages CRUD operations
-export async function readContacts() {
-  if (typeof window !== 'undefined') {
-    // Client-side: JSON dosyasını fetch ile oku
-    try {
-      console.log('🔍 Client-side: Contacts verilerini okuyorum...');
-      const response = await fetch('/db/products.json');
-      if (response.ok) {
-        const data = await response.json();
-        console.log('✅ Client-side: Contacts alındı:', data.contacts?.length || 0);
-        return data.contacts || [];
-      } else {
-        console.error('❌ Contacts JSON dosyası okunamadı:', response.status);
-        return [];
-      }
-    } catch (error) {
-      console.error('❌ Client-side Contacts okuma hatası:', error);
-      return [];
-    }
-  }
-  
-  // Server-side: Node.js ile dosya oku
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
+export async function writeConfig(config) {
   try {
-    await fs.promises.access(dbPath);
-    const data = await fs.promises.readFile(dbPath, 'utf-8');
-    
-    if (!data.trim()) {
-      console.log('DB: Contacts - Dosya boş, boş array döndürülüyor...');
-      return [];
-    }
-    
-    const parsed = JSON.parse(data);
-    return parsed.contacts || [];
+    return await apiCall('/api/config', {
+      method: 'POST',
+      body: JSON.stringify(config)
+    });
   } catch (error) {
-    console.log('DB: Contacts okuma hatası, boş array döndürülüyor...', error.message);
-    return [];
+    console.error('Config yazma hatası:', error);
+    throw error;
+  }
+}
+
+// ===== CONTACTS =====
+export async function readContacts() {
+  try {
+    return await apiCall('/api/contacts');
+  } catch (error) {
+    console.error('Contacts okuma hatası:', error);
+    return defaultData.contacts;
   }
 }
 
 export async function writeContact(contactData) {
-  if (typeof window !== 'undefined') return { success: false, error: 'Client-side yazma desteklenmiyor' };
-  
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
-  
   try {
-    // Mevcut veriyi oku
-    let data = defaultData;
-    try {
-      const existingData = await fs.promises.readFile(dbPath, 'utf-8');
-      if (existingData.trim()) {
-        data = JSON.parse(existingData);
-      }
-    } catch {
-      // Dosya yoksa default data kullan
-    }
-    
-    // Contacts array'ini kontrol et
-    if (!Array.isArray(data.contacts)) {
-      data.contacts = [];
-    }
-    
     // IP adresi ve timestamp ekle
     const newContact = {
       id: Date.now(),
@@ -446,14 +249,13 @@ export async function writeContact(contactData) {
       status: 'new'
     };
     
-    // Contacts array'ine ekle
-    data.contacts.unshift(newContact); // En yenisi başta
-    
-    // Dosyaya yaz
-    await fs.promises.writeFile(dbPath, JSON.stringify(data, null, 2));
+    const result = await apiCall('/api/contacts', {
+      method: 'POST',
+      body: JSON.stringify(newContact)
+    });
     
     console.log('✅ Contact mesajı kaydedildi:', newContact.id);
-    return { success: true, contact: newContact };
+    return { success: true, contact: result };
     
   } catch (error) {
     console.error('❌ Contact yazma hatası:', error);
@@ -462,38 +264,10 @@ export async function writeContact(contactData) {
 }
 
 export async function deleteContact(contactId) {
-  if (typeof window !== 'undefined') return { success: false, error: 'Client-side yazma desteklenmiyor' };
-  
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
-  
   try {
-    // Mevcut veriyi oku
-    let data = defaultData;
-    try {
-      const existingData = await fs.promises.readFile(dbPath, 'utf-8');
-      if (existingData.trim()) {
-        data = JSON.parse(existingData);
-      }
-    } catch {
-      return { success: false, error: 'Veritabanı okunamadı' };
-    }
-    
-    // Contacts array'ini kontrol et
-    if (!Array.isArray(data.contacts)) {
-      return { success: false, error: 'Contacts verisi bulunamadı' };
-    }
-    
-    // Mesajı bul ve sil
-    const initialLength = data.contacts.length;
-    data.contacts = data.contacts.filter(contact => contact.id != contactId);
-    
-    if (data.contacts.length === initialLength) {
-      return { success: false, error: 'Silinecek mesaj bulunamadı' };
-    }
-    
-    // Dosyaya yaz
-    await fs.promises.writeFile(dbPath, JSON.stringify(data, null, 2));
+    await apiCall(`/api/contacts/${contactId}`, {
+      method: 'DELETE'
+    });
     
     console.log('✅ Contact mesajı silindi:', contactId);
     return { success: true, message: 'Mesaj başarıyla silindi' };
@@ -505,39 +279,16 @@ export async function deleteContact(contactId) {
 }
 
 export async function updateContactStatus(contactId, status) {
-  if (typeof window !== 'undefined') return { success: false, error: 'Client-side yazma desteklenmiyor' };
-  
-  const fs = await import('node:fs');
-  const dbPath = await getDbPath();
-  
   try {
-    // Mevcut veriyi oku
-    let data = defaultData;
-    try {
-      const existingData = await fs.promises.readFile(dbPath, 'utf-8');
-      if (existingData.trim()) {
-        data = JSON.parse(existingData);
-      }
-    } catch {
-      return { success: false, error: 'Veritabanı okunamadı' };
-    }
+    const updates = {
+      status: status,
+      updatedAt: new Date().toISOString()
+    };
     
-    // Contacts array'ini kontrol et
-    if (!Array.isArray(data.contacts)) {
-      return { success: false, error: 'Contacts verisi bulunamadı' };
-    }
-    
-    // Mesajı bul ve durumunu güncelle
-    const contact = data.contacts.find(c => c.id == contactId);
-    if (!contact) {
-      return { success: false, error: 'Güncellenecek mesaj bulunamadı' };
-    }
-    
-    contact.status = status;
-    contact.updatedAt = new Date().toISOString();
-    
-    // Dosyaya yaz
-    await fs.promises.writeFile(dbPath, JSON.stringify(data, null, 2));
+    const contact = await apiCall(`/api/contacts/${contactId}`, {
+      method: 'PUT',
+      body: JSON.stringify(updates)
+    });
     
     console.log('✅ Contact durumu güncellendi:', contactId, 'status:', status);
     return { success: true, contact: contact };
